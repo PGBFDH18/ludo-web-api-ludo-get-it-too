@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LudoGameEngine;
+using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
@@ -11,6 +12,19 @@ namespace WebAPI.Controllers
     [ApiController]
     public class LudoController : ControllerBase
     {
+        // DELETE api/ludo/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+        }
+
+        // GET DICK
+        [HttpGet("MONA")]
+        public string get()
+        {
+            return Test.MonaLisa();
+        }
+
         // GET api/ludo
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
@@ -23,11 +37,18 @@ namespace WebAPI.Controllers
             return players.Select(p => p.Name).ToArray();
         }
 
-        // GET api/ludo/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        // GET api/values
+        [HttpGet("{a},{b}")]
+        public int Get(int a, int b)
         {
-            return "value";
+            return Test.AddNumbers(a, b);
+        }
+
+        // GET DICK
+        [HttpGet("DICKS/SIZE:{size}")]
+        public string Get(int size)
+        {
+            return Test.Dick(size);
         }
 
         // POST api/ludo
@@ -39,12 +60,6 @@ namespace WebAPI.Controllers
         // PUT api/ludo/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/ludo/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
         {
         }
     }

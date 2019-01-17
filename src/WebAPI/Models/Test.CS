@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -26,7 +27,7 @@ namespace WebAPI.Models
 
         public static string MonaLisa()
         {
-            var mona_raw = File.ReadAllLines("Mona.txt");
+            var mona_raw = File.ReadAllLines(@"Resources\Mona.txt");
             string mona = "";
             foreach (var line in mona_raw)
             {
