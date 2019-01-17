@@ -2,9 +2,9 @@
 
 namespace LudoGameEngine
 {
-    public class Diece : IDiece
+    public class Dice : IDice
     {
-        public int RollDiece()
+        public int RollDice()
         {
             Random random = new Random();
             return random.Next(1, 7);
