@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using LudoGameEngine;
 
 namespace WebAPI.Controllers
 {
@@ -14,7 +15,12 @@ namespace WebAPI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "value1", "value2" };
+            var game = new LudoGame(new Diece());
+            game.AddPlayer("player1", PlayerColor.Blue);
+            game.AddPlayer("player2", PlayerColor.Red);
+
+            var players = game.GetPlayers();
+            return players.Select(p => p.Name).ToArray();
         }
 
         // GET api/ludo/5
