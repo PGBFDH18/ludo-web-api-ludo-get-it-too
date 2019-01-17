@@ -6,6 +6,5 @@ namespace LudoGameEngine
         Green = 1,
         Blue = 2,
         Yellow = 3
-
     }
 }

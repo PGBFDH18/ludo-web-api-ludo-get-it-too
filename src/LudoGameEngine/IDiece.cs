@@ -1,7 +1,7 @@
 ﻿namespace LudoGameEngine
 {
-    public interface IDiece
+    public interface IDice
     {
-        int RollDiece();
+        int RollDice();
     }
 }

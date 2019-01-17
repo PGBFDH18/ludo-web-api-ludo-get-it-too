@@ -10,11 +10,11 @@ namespace LudoGameEngine
         private List<Player> _players = new List<Player>();
         private GameState _gameState = GameState.NotStarted;
         private int currentPlayerId = 0;
-        private IDiece _diece = null;
+        private IDice _dice = null;
 
-        public LudoGame(IDiece diece)
+        public LudoGame(IDice dice)
         {
-            _diece = diece;
+            _dice = dice;
         }
 
         public Player AddPlayer(string name, PlayerColor color)
@@ -147,19 +147,19 @@ namespace LudoGameEngine
 
         }
 
-        public int RollDiece()
+        public int RollDice()
         {
-            if (_diece == null)
+            if (_dice == null)
             {
-                throw new NullReferenceException("Diece is not set to an instance");
+                throw new NullReferenceException("Dice is not set to an instance");
             }
 
             if (_gameState != GameState.Started)
             {
-                throw new Exception($"Unable roll diece since the game is not started, it's current state is: {_gameState}");
+                throw new Exception($"Unable roll dice since the game is not started, it's current state is: {_gameState}");
             }
 
-            return _diece.RollDiece();
+            return _dice.RollDice();
         }
 
         public bool StartGame()

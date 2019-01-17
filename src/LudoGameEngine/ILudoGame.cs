@@ -8,7 +8,7 @@ namespace LudoGameEngine
         GameState GetGameState();
         //void StartTurn(Player player);
 
-        int RollDiece();
+        int RollDice();
 
         void MovePiece(Player player, int pieceId, int numberOfFields);
         void EndTurn(Player player);

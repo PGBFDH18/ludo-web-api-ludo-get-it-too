@@ -15,7 +15,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            var game = new LudoGame(new Diece());
+            var game = new LudoGame(new Dice());
             game.AddPlayer("player1", PlayerColor.Blue);
             game.AddPlayer("player2", PlayerColor.Red);
 
