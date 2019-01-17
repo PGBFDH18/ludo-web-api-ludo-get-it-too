@@ -15,4 +15,10 @@
   <ItemGroup>
     <ProjectReference Include="..\LudoGameEngine\LudoGameEngine.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\MonaLisa.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
