@@ -28,7 +28,7 @@
   
   - As a user I want to be notified when a piece has been knocked out.
   
-  - As a user I want to see how many times a "knock out" has been performed, I also want to see whom dun it, so I can perform a             piledriver on this individual.
+  - As a user I want to see how many times a "knock out" has been performed, I also want to see whom dun it, so I can perform a             piledriver on this mother fucker.
   
   
   Optional:
