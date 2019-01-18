@@ -1,0 +1,46 @@
+openapi: 3.0.0 
+info:
+	version: 1.0.0
+	title: LUDO
+	description: Välkommen till Fia med Knuff
+servers:
+	- url: 127.0.0.1
+paths:
+	/ludo:
+		get:
+		  responses:
+			'200':
+			  description: Success
+			  
+		put:
+
+		post:
+
+		delete:
+		
+	/ludo/{GameID}:
+		get:
+
+		put:
+
+		post:
+
+		delete:
+
+	/ludo/{GameID}/players
+		get:
+
+		put:
+
+		post:
+
+		delete:
+
+	/ludo/{GameID}/players/{PlayerID}
+		get:
+
+		put:
+
+		post:
+
+		delete:
