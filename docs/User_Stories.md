@@ -38,10 +38,10 @@
     - As a user if I have two pieces in the same position, I want to be able to set up a barricade, thus blocking other players pieces         from passing.
   
   
- When "open an existing game" has been chosen:
- 
-  - As a user I want to be able to start where we left off, meaning that the dice will be rolled for the "right" player.
-  
-  - As a user I want to be able to get all the information about the participants of the game, such as the position of every players         pieces, how many have entered the goal, how many are in the nest.
-  
-  - As a user I want the basic functionality to play the game (Has been formulated in "new game" section).
+   When "open an existing game" has been chosen:
+
+    - As a user I want to be able to start where we left off, meaning that the dice will be rolled for the "right" player.
+
+    - As a user I want to be able to get all the information about the participants of the game, such as the position of every players         pieces, how many have entered the goal, how many are in the nest.
+
+    - As a user I want the basic functionality to play the game (Has been formulated in "new game" section).
