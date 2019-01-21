@@ -16,7 +16,9 @@ paths:
 					schema:
 						type: array
 						items: 
-							type: int					
+							type: int
+				default:
+					description: There are no active games at this moment.
 			  
 		post:
 			summary: make a new game
@@ -24,6 +26,8 @@ paths:
 			responses:
 				'200':
 					descripition: Success, you made a new game
+				default:
+					description: We could not make a new game at this moment.
 			
 		
 	/ludo/{gameID}:
@@ -36,6 +40,8 @@ paths:
 					schema:
 						type: #array???
 					#	items: int?? Var står pjäserna??
+				default:
+					description: Something went wrong, invalid gameID perhaps.
 			parameters:
 			      -	in: query
 				name: gameID
@@ -49,6 +55,8 @@ paths:
 			responses:
 				'200':
 					descripition: Success, you moved a piece.
+				default:
+					description: Could not move piece, check input.
 			parameters:
 			      -	in: query
 				name: pieceID
@@ -62,10 +70,12 @@ paths:
 			responses:
 				'200':
 					descripition: Success, you've deleted the game
+				default:
+					description: Something went wrong.
 
 	/ludo/{GameID}/players
 		get:
-			summary : list players in this game #onödigt? ska infon finnas här eller i /ludo/{GameID}?
+			summary : list players in this game
 			operationId: GetPlayers
 			responses:
 				'200':
@@ -81,6 +91,8 @@ paths:
 								example: 123
 								type: string
 								example: Red
+				default:
+					description: There are no players in this game
 					
 
 		put:
@@ -89,6 +101,8 @@ paths:
 			responses:
 				'200':
 					descripition: Success, you added a player
+				default:
+					description: Only applicable if the game is not started
 			parameters:
 			      -	in: path
 				name: playerName
@@ -117,6 +131,8 @@ paths:
 							example: 123
 							type: string
 							example: Red
+				default:
+					description: Something went wrong, check your input.
 
 		put:
 			summary: change name or color on player. color change only possible in game state NotStarted.
@@ -124,6 +140,8 @@ paths:
 			responses:
 				'200':
 					descripition: Success, player updated
+				default:
+					description: Invalid input perhaps
 			parameters:
 			      -	in: path
 				name: PlayerColor
@@ -143,3 +161,5 @@ paths:
 			responses:
 				'200':
 					descripition: Success, player removed
+				default:
+					description: Something went wrong.
