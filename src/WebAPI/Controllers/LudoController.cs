@@ -12,12 +12,6 @@ namespace WebAPI.Controllers
     [ApiController]
     public class LudoController : ControllerBase
     {
-        // DELETE api/ludo/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
-
         // GET DICK
         [HttpGet("MONA")]
         public string get()
@@ -37,30 +31,84 @@ namespace WebAPI.Controllers
             return players.Select(p => p.Name).ToArray();
         }
 
-        // GET api/values
-        [HttpGet("{a},{b}")]
-        public int Get(int a, int b)
-        {
-            return Test.AddNumbers(a, b);
-        }
-
-        // GET DICK
-        [HttpGet("DICKS/SIZE:{size}")]
-        public string Get(int size)
-        {
-            return Test.Dick(size);
-        }
-
         // POST api/ludo
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT api/ludo/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        LudoGame game = new LudoGame(new Dice());
+
+        // POST api/ludo/createnewgame
+        [HttpPost("createnewgame")]
+        public void CreateNewGame()
         {
+            if (false)
+            {
+                throw new Exception("no.");
+            }
+            else
+            {
+                game.StartGame();
+            }
         }
+
+        [HttpGet("{gameID}/getgamedetails")]
+        public Piece[] GetGameDetails()
+        {
+            return game.GetAllPiecesInGame();
+        }
+
+        [HttpPut("{gameID}/movepiece")]
+        public void MovePiece(Piece piece)
+        {
+            // Move the selected piece
+        }
+
+        [HttpDelete("{gameID}/removegame")]
+        public void RemoveGame()
+        {
+            // Remove the game in the application layer
+        }
+
+        [HttpGet("{gameID}/players/getplayers")]
+        public Player[] GetPlayers()
+        {
+            return game.GetPlayers();
+        }
+
+        [HttpPut("{gameID}/players/addplayer")]
+        public void AddPlayer(string name, PlayerColor color)
+        {
+            game.AddPlayer(name, color);
+        }
+
+        [HttpGet("{gameID}/players/{PlayerID}")]
+        public Player GetPlayerDetails(PlayerColor color)
+        {
+            // If we assume that PlayerID is the current player :^ )
+            // Perhaps take some sort of input from user, such as color.
+            // Use this input to find the "right" player.
+            return game.GetCurrentPlayer();
+        }
+
+
+        [HttpPut("{gameID}/players/{PlayerID}")]
+        public Player ChangePlayerDetails(Player p, PlayerColor color, string name = "")
+        {
+            p.PlayerColor = color;
+            if(name != "")
+            {
+                p.Name = name;
+            }
+            return p;
+        }
+
+        [HttpDelete("{GameID}/players/{PlayerID}")]
+        public void RemovePlayer(PlayerColor color)
+        {
+            game.RemovePlayer(color);
+        }
+
     }
 }

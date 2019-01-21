@@ -36,10 +36,10 @@ namespace LudoGameEngine
                 PlayerColor = color,
                 Pieces = new Piece[]
                 {
-                    new Piece{ Position = 0, State = PieceGameState.HomeArea, PieceId = 0},
-                    new Piece{ Position = 0, State = PieceGameState.HomeArea, PieceId = 1},
-                    new Piece{ Position = 0, State = PieceGameState.HomeArea, PieceId = 2},
-                    new Piece{ Position = 0, State = PieceGameState.HomeArea, PieceId = 3}
+                    new Piece{ Position = 0, State = PieceGameState.HomeArea, PieceId = 0, PieceColor=color},
+                    new Piece{ Position = 0, State = PieceGameState.HomeArea, PieceId = 1, PieceColor=color},
+                    new Piece{ Position = 0, State = PieceGameState.HomeArea, PieceId = 2, PieceColor=color},
+                    new Piece{ Position = 0, State = PieceGameState.HomeArea, PieceId = 3, PieceColor=color}
                 }
             };
 
@@ -193,6 +193,19 @@ namespace LudoGameEngine
                 }
             }
             return null;
+        }
+
+        public void RemovePlayer(PlayerColor color)
+        {
+            bool removed = false;
+            foreach (var player in _players)
+            {
+                if (player.PlayerColor == color && removed == false)
+                {
+                    _players.Remove(player);
+                    removed = true;
+                }
+            }
         }
     }
 }
