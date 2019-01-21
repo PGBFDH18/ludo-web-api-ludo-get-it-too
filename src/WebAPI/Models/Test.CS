@@ -27,7 +27,7 @@ namespace WebAPI.Models
 
         public static string MonaLisa()
         {
-            var mona_raw = File.ReadAllLines(@"Resources\Mona.txt");
+            var mona_raw = File.ReadAllLines(@"Resources\MonaLisa.txt");
             string mona = "";
             foreach (var line in mona_raw)
             {
