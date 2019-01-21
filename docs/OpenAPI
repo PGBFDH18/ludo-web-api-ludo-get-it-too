@@ -42,12 +42,6 @@ paths:
 					#	items: int?? Var står pjäserna??
 				default:
 					description: Something went wrong, invalid gameID perhaps.
-			parameters:
-			      -	in: query
-				name: gameID
-				type: int
-				required: true
-				description: ID of one specific game.
 
 		put:
 			summary: change positioning of a piece
