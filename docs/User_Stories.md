@@ -3,7 +3,7 @@
 
 - As a user I want to be given the option to create a new game or open an existing game.
 
-  ##When a "new game" has been chosen:
+  ## When a "new game" has been chosen:
 
 - As a user I want to be able to submit the amount of players when new game has been chosen.
 
@@ -30,14 +30,14 @@
 - As a user I want to see how many times a "knock out" has been performed, I also want to see whom dun it, so I can perform a             piledriver on this mother fucker.
   
   
-  ##Optional:
+  ## Optional:
   
 - As a user I want to be notified when the ability to form a barricade transpires.
   
 - As a user if I have two pieces in the same position, I want to be able to set up a barricade, thus blocking other players pieces from passing.
   
   
-   ##When "open an existing game" has been chosen:
+   ## When "open an existing game" has been chosen:
 
 - As a user I want to be able to start where we left off, meaning that the dice will be rolled for the "right" player.
 
