@@ -22,7 +22,7 @@ paths:
 			  
 		post:
 			summary: make a new game
-			operationId: MakeNewGame
+			operationId: CreateNewGame
 			responses:
 				'200':
 					descripition: Success, you made a new game
