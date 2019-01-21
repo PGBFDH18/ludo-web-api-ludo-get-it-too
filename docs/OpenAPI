@@ -12,43 +12,134 @@ paths:
 			operationId: GetGameList
 			responses:
 				'200':
-			  		description: Success
+			  		description: Success. Here's you list
+					schema:
+						type: array
+						items: 
+							type: int					
 			  
 		post:
 			summary: make a new game
 			operationId: MakeNewGame
+			responses:
+				'200':
+					descripition: Success, you made a new game
+			
 		
-	/ludo/{GameID}:
+	/ludo/{gameID}:
 		get:
 			summary: details about the game, positioning of the pieces, colors in play.
 			operationId: GetGameDetails
+			responses:
+				'200':
+					descripition: Success, this is how your game looks.
+					schema:
+						type: #array???
+					#	items: int?? Var står pjäserna??
+			parameters:
+			      -	in: query
+				name: gameID
+				type: int
+				required: true
+				description: ID of one specific game.
 
 		put:
 			summary: change positioning of a piece
 			operationId: MovePiece
+			responses:
+				'200':
+					descripition: Success, you moved a piece.
+			parameters:
+			      -	in: query
+				name: pieceID
+				type: int
+				required: true
+				description: ID of one specific piece.			      
 
 		delete:
 			summary: remove this game
 			operationId: RemoveGame
+			responses:
+				'200':
+					descripition: Success, you've deleted the game
 
 	/ludo/{GameID}/players
 		get:
 			summary : list players in this game #onödigt? ska infon finnas här eller i /ludo/{GameID}?
 			operationId: GetPlayers
+			responses:
+				'200':
+					descripition: Success, here's your list of players.
+					schema:
+						type: array
+						items: 
+							type: object
+							properties: 
+								type: string
+								example: Monica
+								type: int
+								example: 123
+								type: string
+								example: Red
+					
 
 		put:
 			summary: add new player, only applicable if game state is NotStarted
 			operationId: AddPlayer
+			responses:
+				'200':
+					descripition: Success, you added a player
+			parameters:
+			      -	in: path
+				name: playerName
+				type: string
+				required: true
+				description: Name of the player
+			      -	in: path
+				name: PlayerColor
+				type: int
+				required: true
+				description: playingcolor of the new player.
 
 	/ludo/{GameID}/players/{PlayerID}
 		get:
 			summary: details about player.
 			operationId: GetPlayerDetails
+			responses:
+				'200':
+					descripition: Success, here's you player.
+					schema:
+						type: object
+						properties: 
+							type: string
+							example: Monica
+							type: int
+							example: 123
+							type: string
+							example: Red
 
 		put:
 			summary: change name or color on player. color change only possible in game state NotStarted.
 			operationId: ChangePlayerDetails
+			responses:
+				'200':
+					descripition: Success, player updated
+			parameters:
+			      -	in: path
+				name: PlayerColor
+				type: int
+				required: false
+				description: updates player color.
+			      -	in: path
+				name: PlayerName
+				type: string
+				required: false
+				description: updates player name.
+				
 
 		delete:
 			summary: remove player.
 			operationId: RemovePlayer
+			responses:
+				'200':
+					descripition: Success, player removed
