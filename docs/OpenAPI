@@ -8,39 +8,40 @@ servers:
 paths:
 	/ludo:
 		get:
-		  responses:
-			'200':
-			  description: Success
+		  	summary: list of LUDU-games avaliable
+			operationId: GetLudoGames
+			responses:
+				'200':
+			  		description: Success
 			  
-		put:
-
 		post:
-
-		delete:
+			summary: make a new game
+			operationId: MakeNewGame
 		
 	/ludo/{GameID}:
 		get:
+			summary: details about the game, positioning of the pieces, colors in play.
+			operationId: Get
 
 		put:
-
-		post:
+			summary: change positioning of a piece
 
 		delete:
+			summary: remove this game
 
 	/ludo/{GameID}/players
 		get:
+			summary : list players in this game #onödigt? ska infon finnas här eller i /ludo/{GameID}?
 
 		put:
-
-		post:
-
-		delete:
+			summary: add new player, only applicable if game state is NotStarted
 
 	/ludo/{GameID}/players/{PlayerID}
 		get:
+			summary: details about player.
 
 		put:
-
-		post:
+			summary: change name or color on player. color change only possible in game state NotStarted.
 
 		delete:
+			summary: remove player.
