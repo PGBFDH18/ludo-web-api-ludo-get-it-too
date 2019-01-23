@@ -1,159 +1,199 @@
 openapi: 3.0.0 
 info:
-	version: 1.0.0
-	title: LUDO
-	description: Välkommen till Fia med Knuff
+  version: 1.0.0
+  title: LUDO
+  description: Välkommen till Fia med Knuff
 servers:
-	- url: 127.0.0.1
+  - url: https://facebook.com/
 paths:
-	/ludo:
-		get:
-		  	summary: list of LUDU-games avaliable
-			operationId: GetGameList
-			responses:
-				'200':
-			  		description: Success. Here's you list
-					schema:
-						type: array
-						items: 
-							type: int
-				default:
-					description: There are no active games at this moment.
-			  
-		post:
-			summary: make a new game
-			operationId: CreateNewGame
-			responses:
-				'200':
-					descripition: Success, you made a new game
-				default:
-					description: We could not make a new game at this moment.
-			
-		
-	/ludo/{gameID}:
-		get:
-			summary: details about the game, positioning of the pieces, colors in play.
-			operationId: GetGameDetails
-			responses:
-				'200':
-					descripition: Success, this is how your game looks.
-					schema:
-						type: #array???
-					#	items: int?? Var står pjäserna??
-				default:
-					description: Something went wrong, invalid gameID perhaps.
+  /ludo:
+    get:
+      summary: list of LUDU-games avaliable
+      operationId: GetGameList
+      responses:
+        '200':
+          description: Success
+        default:
+          description: There are no active games at this moment.
+        
+    post:
+      summary: make a new game
+      operationId: CreateNewGame
+      responses:
+        '200':
+          description: Success, you made a new game
+        default:
+          description: We could not make a new game at this moment.
+          
+  /ludo/{gameID}:
+    get:
+      summary: details about the game, positioning of the pieces, colors in play.
+      operationId: GetGameDetails
+      parameters:
+        - name: gameID
+          in: path
+          required: true
+          description: The id of the pet to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success, this is how your game looks.
+        default:
+          description: Something went wrong, invalid gameID perhaps.
 
-		put:
-			summary: change positioning of a piece
-			operationId: MovePiece
-			responses:
-				'200':
-					descripition: Success, you moved a piece.
-				default:
-					description: Could not move piece, check input.
-			parameters:
-			      -	in: query
-				name: pieceID
-				type: int
-				required: true
-				description: ID of one specific piece.			      
+    put:
+      summary: change positioning of a piece
+      operationId: MovePiece
+      responses:
+        '200':
+          description: Success, you moved a piece.
+        default:
+          description: Could not move piece, check input.
+      parameters:
+      - name: gameID
+        in: path
+        required: true
+        description: The id of the pet to retrieve
+        schema:
+          type: string
+      - name: pieceID
+        in: query
+        required: true
+        schema:
+          type: integer
+        description: ID of one specific piece.            
 
-		delete:
-			summary: remove this game
-			operationId: RemoveGame
-			responses:
-				'200':
-					descripition: Success, you've deleted the game
-				default:
-					description: Something went wrong.
+    delete:
+      summary: remove this game
+      operationId: RemoveGame
+      parameters:
+        - name: gameID
+          in: path
+          required: true
+          description: The id of the pet to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success, you've deleted the game
+        default:
+          description: Something went wrong.
 
-	/ludo/{GameID}/players
-		get:
-			summary : list players in this game
-			operationId: GetPlayers
-			responses:
-				'200':
-					descripition: Success, here's your list of players.
-					schema:
-						type: array
-						items: 
-							type: object
-							properties: 
-								type: string
-								example: Monica
-								type: int
-								example: 123
-								type: string
-								example: Red
-				default:
-					description: There are no players in this game
-					
+  /ludo/{gameID}/players:
+    get:
+      summary : list players in this game
+      operationId: GetPlayers
+      parameters:
+      - name: gameID
+        in: path
+        required: true
+        description: The id of the pet to retrieve
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success, here's your list of players.
+        default:
+          description: There are no players in this game
 
-		put:
-			summary: add new player, only applicable if game state is NotStarted
-			operationId: AddPlayer
-			responses:
-				'200':
-					descripition: Success, you added a player
-				default:
-					description: Only applicable if the game is not started
-			parameters:
-			      -	in: path
-				name: playerName
-				type: string
-				required: true
-				description: Name of the player
-			      -	in: path
-				name: PlayerColor
-				type: int
-				required: true
-				description: playingcolor of the new player.
+    put:
+      summary: add new player, only applicable if game state is NotStarted
+      operationId: AddPlayer
+      responses:
+        '200':
+          description: Success, you added a player
+        default:
+          description: Only applicable if the game is not started
+      parameters:
+      - name: gameID
+        in: path
+        required: true
+        description: The id of the pet to retrieve
+        schema:
+          type: string
+      - in: path
+        schema:
+          type: string
+        name: playerName
+        required: true
+        description: Name of the player
+      - name: PlayerColor
+        in: path
+        required: true
+        description: playingcolor of the new player.
+        schema:
+          type: integer
+        
+        
 
-	/ludo/{GameID}/players/{PlayerID}
-		get:
-			summary: details about player.
-			operationId: GetPlayerDetails
-			responses:
-				'200':
-					descripition: Success, here's you player.
-					schema:
-						type: object
-						properties: 
-							type: string
-							example: Monica
-							type: int
-							example: 123
-							type: string
-							example: Red
-				default:
-					description: Something went wrong, check your input.
 
-		put:
-			summary: change name or color on player. color change only possible in game state NotStarted.
-			operationId: ChangePlayerDetails
-			responses:
-				'200':
-					descripition: Success, player updated
-				default:
-					description: Invalid input perhaps
-			parameters:
-			      -	in: path
-				name: PlayerColor
-				type: int
-				required: false
-				description: updates player color.
-			      -	in: path
-				name: PlayerName
-				type: string
-				required: false
-				description: updates player name.
-				
-
-		delete:
-			summary: remove player.
-			operationId: RemovePlayer
-			responses:
-				'200':
-					descripition: Success, player removed
-				default:
-					description: Something went wrong.
+  /ludo/{gameID}/players/{PlayerID}:
+    get:
+      summary: details about player.
+      operationId: GetPlayerDetails
+      parameters:
+      - name: gameID
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: PlayerID
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success, here's you player
+        default:
+          description: Something went wrong, check your input.
+    put:
+      summary: change name or color on player. color change only possible in game state NotStarted.
+      operationId: ChangePlayerDetails
+      responses:
+        '200':
+          description: Success, player updated
+        default:
+          description: Invalid input perhaps
+      parameters:
+      - name: gameID
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: PlayerID
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: PlayerColor
+        in: query
+        description: updates player color.
+        schema:
+          type: integer
+      - name: PlayerName
+        in: query
+        description: updates player name.
+        schema:
+          type: string
+        
+    delete:
+      summary: remove player.
+      operationId: RemovePlayer
+      parameters:
+      - name: gameID
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: PlayerID
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:  
+        default:
+          description: Something went wrong
+        '200':
+          description: Success, player removed.
