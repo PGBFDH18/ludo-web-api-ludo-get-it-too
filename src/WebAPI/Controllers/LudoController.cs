@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LudoGameEngine;
 using WebAPI.Models;
+using Ge = LudoGameEngine;
 
 namespace WebAPI.Controllers
 {
@@ -12,6 +13,12 @@ namespace WebAPI.Controllers
     [ApiController]
     public class LudoController : ControllerBase
     {
+        private ILudoGame _game;
+        public LudoController(Ge.ILudoGame ge)
+        {
+            _game = ge;
+        }
+
         // GET DICK
         [HttpGet("MONA")]
         public string get()
@@ -37,8 +44,6 @@ namespace WebAPI.Controllers
         {
         }
 
-        LudoGame game = new LudoGame(new Dice());
-
         // POST api/ludo/createnewgame
         [HttpPost("createnewgame")]
         public void CreateNewGame()
@@ -49,14 +54,14 @@ namespace WebAPI.Controllers
             }
             else
             {
-                game.StartGame();
+                _game.StartGame();
             }
         }
 
         [HttpGet("{gameID}/getgamedetails")]
         public Piece[] GetGameDetails()
         {
-            return game.GetAllPiecesInGame();
+            return _game.GetAllPiecesInGame();
         }
 
         [HttpPut("{gameID}/movepiece")]
@@ -74,13 +79,13 @@ namespace WebAPI.Controllers
         [HttpGet("{gameID}/players/getplayers")]
         public Player[] GetPlayers()
         {
-            return game.GetPlayers();
+            return _game.GetPlayers();
         }
 
         [HttpPut("{gameID}/players/addplayer")]
         public void AddPlayer(string name, PlayerColor color)
         {
-            game.AddPlayer(name, color);
+            _game.AddPlayer(name, color);
         }
 
         [HttpGet("{gameID}/players/{PlayerID}")]
@@ -89,7 +94,7 @@ namespace WebAPI.Controllers
             // If we assume that PlayerID is the current player :^ )
             // Perhaps take some sort of input from user, such as color.
             // Use this input to find the "right" player.
-            return game.GetCurrentPlayer();
+            return _game.GetCurrentPlayer();
         }
 
 
@@ -107,8 +112,7 @@ namespace WebAPI.Controllers
         [HttpDelete("{GameID}/players/{PlayerID}")]
         public void RemovePlayer(PlayerColor color)
         {
-            game.RemovePlayer(color);
+            _game.RemovePlayer(color);
         }
-
     }
 }
