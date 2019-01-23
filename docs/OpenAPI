@@ -1,6 +1,6 @@
 openapi: 3.0.0 
 info:
-  version: 1.0.0
+  version: 1.0.1
   title: LUDO
   description: Välkommen till Fia med Knuff
 servers:
@@ -32,8 +32,8 @@ paths:
       parameters:
         - name: gameID
           in: path
-          required: true
           description: The id of the pet to retrieve
+          required: true
           schema:
             type: string
       responses:
@@ -53,16 +53,16 @@ paths:
       parameters:
       - name: gameID
         in: path
-        required: true
         description: The id of the pet to retrieve
+        required: true
         schema:
           type: string
       - name: pieceID
         in: query
+        description: ID of one specific piece.            
         required: true
         schema:
           type: integer
-        description: ID of one specific piece.            
 
     delete:
       summary: remove this game
@@ -70,8 +70,8 @@ paths:
       parameters:
         - name: gameID
           in: path
-          required: true
           description: The id of the pet to retrieve
+          required: true
           schema:
             type: string
       responses:
@@ -87,8 +87,8 @@ paths:
       parameters:
       - name: gameID
         in: path
-        required: true
         description: The id of the pet to retrieve
+        required: true
         schema:
           type: string
       responses:
@@ -108,25 +108,22 @@ paths:
       parameters:
       - name: gameID
         in: path
-        required: true
         description: The id of the pet to retrieve
-        schema:
-          type: string
-      - in: path
-        schema:
-          type: string
-        name: playerName
         required: true
+        schema:
+          type: string
+      - name: playerName
+        in: query
         description: Name of the player
-      - name: PlayerColor
-        in: path
         required: true
+        schema:
+          type: string
+      - name: PlayerColor
+        in: query
         description: playingcolor of the new player.
+        required: true
         schema:
           type: integer
-        
-        
-
 
   /ludo/{gameID}/players/{PlayerID}:
     get:
