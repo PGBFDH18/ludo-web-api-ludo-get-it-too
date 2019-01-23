@@ -19,43 +19,23 @@ namespace WebAPI.Controllers
             _game = ge;
         }
 
-        // GET DICK
-        [HttpGet("MONA")]
-        public string get()
-        {
-            return Test.MonaLisa();
-        }
-
         // GET api/ludo
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
-        {
-            var game = new LudoGame(new Dice());
-            game.AddPlayer("player1", PlayerColor.Blue);
-            game.AddPlayer("player2", PlayerColor.Red);
+        //[HttpGet]
+        //public ActionResult<IEnumerable<string>> Get()
+        //{
+        //    var game = new LudoGame(new Dice());
+        //    game.AddPlayer("player1", PlayerColor.Blue);
+        //    game.AddPlayer("player2", PlayerColor.Red);
 
-            var players = game.GetPlayers();
-            return players.Select(p => p.Name).ToArray();
-        }
-
-        // POST api/ludo
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+        //    var players = game.GetPlayers();
+        //    return players.Select(p => p.Name).ToArray();
+        //}
 
         // POST api/ludo/createnewgame
         [HttpPost("createnewgame")]
         public void CreateNewGame()
         {
-            if (false)
-            {
-                throw new Exception("no.");
-            }
-            else
-            {
-                _game.StartGame();
-            }
+            _game.StartGame();
         }
 
         [HttpGet("{gameID}/getgamedetails")]
@@ -73,7 +53,7 @@ namespace WebAPI.Controllers
         [HttpDelete("{gameID}/removegame")]
         public void RemoveGame()
         {
-            // Remove the game in the application layer
+            // Remove the game in the application layer, db?
         }
 
         [HttpGet("{gameID}/players/getplayers")]
@@ -101,6 +81,12 @@ namespace WebAPI.Controllers
         [HttpPut("{gameID}/players/{PlayerID}")]
         public Player ChangePlayerDetails(Player p, PlayerColor color, string name = "")
         {
+
+            // Request form allows us to extract data from the parameter in the http request.
+            // So instead of passing the Player object as a parameter to the function,
+            // we can extract the necessary data from the parameter.
+            string tmp = Request.Form["PlayerID"];
+
             p.PlayerColor = color;
             if(name != "")
             {
@@ -112,6 +98,11 @@ namespace WebAPI.Controllers
         [HttpDelete("{GameID}/players/{PlayerID}")]
         public void RemovePlayer(PlayerColor color)
         {
+            // Remove player where PlayerID matches player,
+            // open for suggestions regarding logic behind it.
+            string tmp = Request.Form["PlayerID"];
+
+
             _game.RemovePlayer(color);
         }
     }
