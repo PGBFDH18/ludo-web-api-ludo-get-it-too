@@ -7,10 +7,16 @@ namespace LudoGameEngine
 {
     public class LudoGame : ILudoGame
     {
+        public long Id { get; set; }
         private List<Player> _players = new List<Player>();
         private GameState _gameState = GameState.NotStarted;
         private int currentPlayerId = 0;
         private IDice _dice = null;
+
+        public LudoGame()
+        {
+            _dice = new Dice();
+        }
 
         public LudoGame(IDice dice)
         {
