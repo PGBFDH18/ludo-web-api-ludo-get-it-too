@@ -45,9 +45,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("{gameID}/movepiece")]
-        public void MovePiece(Piece piece, int pieceId, int steps)
+        public void MovePiece(Player player, int pieceId, int numberOfFields)
         {
-            // Move the selected piece
+            _game.MovePiece(player, pieceId, numberOfFields);
         }
 
         [HttpDelete("{gameID}/removegame")]
