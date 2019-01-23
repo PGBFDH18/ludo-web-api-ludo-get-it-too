@@ -10,7 +10,7 @@ namespace LudoGameEngine
         {
             get
             {
-                return (int)PlayerColor * 13;
+                return (int)PlayerColor * 10;
             }
         }
     }
