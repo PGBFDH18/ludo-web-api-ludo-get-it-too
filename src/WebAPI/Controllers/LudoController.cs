@@ -3,44 +3,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using LudoGameEngine;
 using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[Controller]")]
     public class LudoController : Controller
     {
+        private readonly LudoContext context;
+
+        public LudoController(LudoContext _context)
+        {
+            context = _context;
+
+            if (context.LudoGames.Count() == 0)
+            {
+                context.LudoGames.Add(new LudoGame(new Dice()));
+                context.SaveChanges();
+            }
+        }
+
         // GET: api/Ludo
         [HttpGet]
-        public string GetAllGames()
+        public LudoGame[] GetAllGames()
         {
-            
+            return context.LudoGames.ToArray();
         }
 
-        // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<controller>
+        // POST: api/ludo
         [HttpPost]
-        public void Post([FromBody]string value)
+        public LudoGame[] AddNewGame()
         {
-            
-        }
+            context.LudoGames.Add(new LudoGame(new Dice()));
+            context.SaveChanges();
 
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return context.LudoGames.ToArray();
         }
     }
 }

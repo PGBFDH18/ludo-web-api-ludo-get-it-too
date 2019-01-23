@@ -1,22 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using LudoGameEngine;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.IO;
 using Microsoft.EntityFrameworkCore;
-
-
 namespace WebAPI.Models
 {
-    public class LudoContext
+    public class LudoContext : DbContext
     {
-        private List<Ludo> ludoGames = new List<Ludo>();
-
-        public LudoContext()
+        public LudoContext(DbContextOptions<LudoContext> options)
+            :base(options)
         {
-            ludoGames.Add(new Ludo((ludoGames.Count + 1), new LudoGameEngine.LudoGame(new LudoGameEngine.Dice())));
-        }
-        
-        public List<Ludo> GetAllGames()
-        {
-            return ludoGames;
         }
 
+        public DbSet<LudoGame> LudoGames { get; set; }
     }
 }

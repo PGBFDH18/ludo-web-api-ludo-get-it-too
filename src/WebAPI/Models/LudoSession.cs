@@ -6,15 +6,9 @@ using LudoGameEngine;
 
 namespace WebAPI.Models
 {
-    public class Ludo
+    public class LudoSession
     {
         public int Id { get; set; }
         public LudoGame Game { get; set; }
-
-        public Ludo(int id, LudoGame game)
-        {
-            Id = id;
-            Game = game;
-        }
     }
 }
