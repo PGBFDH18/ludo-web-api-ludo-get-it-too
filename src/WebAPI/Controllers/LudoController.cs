@@ -45,7 +45,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("{gameID}/movepiece")]
-        public void MovePiece(Piece piece)
+        public void MovePiece(Piece piece, int pieceId, int steps)
         {
             // Move the selected piece
         }
