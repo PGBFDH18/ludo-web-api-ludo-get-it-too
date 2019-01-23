@@ -33,51 +33,28 @@ namespace WebAPI.Controllers
             return context.LudoGames.ToArray();
         }
 
-        // POST: api/ludo
-        [HttpPost]
-        public LudoGame[] AddNewGame()
-        {
-            context.LudoGames.Add(new LudoGame(new Dice()));
-            context.SaveChanges();
-
-            return context.LudoGames.ToArray();
-        }
-
-        private ILudoGame _game;
-        public LudoController(Ge.ILudoGame ge)
-        {
-            _game = ge;
-        }
-
-        // GET api/ludo
-        //[HttpGet]
-        //public ActionResult<IEnumerable<string>> Get()
-        //{
-        //    var game = new LudoGame(new Dice());
-        //    game.AddPlayer("player1", PlayerColor.Blue);
-        //    game.AddPlayer("player2", PlayerColor.Red);
-
-        //    var players = game.GetPlayers();
-        //    return players.Select(p => p.Name).ToArray();
-        //}
-
-        // POST api/ludo/createnewgame
+        // POST: api/ludo/createnewgame
         [HttpPost("createnewgame")]
         public void CreateNewGame()
         {
-            _game.StartGame();
+            context.LudoGames.Add(new LudoGame(new Dice()));
+            context.SaveChanges();
         }
 
-        [HttpGet("{gameID}/getgamedetails")]
-        public Piece[] GetGameDetails()
+        // GET: api/ludo/{gameID}/getgamedetails
+        [HttpGet("{id}/getgamedetails")]
+        public Piece[] GetGameDetails(long id)
         {
-            return _game.GetAllPiecesInGame();
+            return context.LudoGames.Find(id).GetAllPiecesInGame();
         }
 
-        [HttpPut("{gameID}/movepiece")]
-        public void MovePiece(Player player, int pieceId, int numberOfFields)
+
+        // PUT: api/ludo/{gameID}/movepiece
+        [HttpPut("{id}/movepiece")]
+        public void MovePiece(int id, Player player, int pieceId, int numberOfFields)
         {
-            _game.MovePiece(player, pieceId, numberOfFields);
+            context.LudoGames.Find(id).MovePiece(player, pieceId, numberOfFields);
+            context.SaveChanges();
         }
 
         [HttpDelete("{gameID}/removegame")]
@@ -87,24 +64,24 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("{gameID}/players/getplayers")]
-        public Player[] GetPlayers()
+        public void GetPlayers()
         {
-            return _game.GetPlayers();
+            //return _game.GetPlayers();
         }
 
         [HttpPut("{gameID}/players/addplayer")]
         public void AddPlayer(string name, PlayerColor color)
         {
-            _game.AddPlayer(name, color);
+            //_game.AddPlayer(name, color);
         }
 
         [HttpGet("{gameID}/players/{PlayerID}")]
-        public Player GetPlayerDetails(PlayerColor color)
+        public void GetPlayerDetails(PlayerColor color)
         {
             // If we assume that PlayerID is the current player :^ )
             // Perhaps take some sort of input from user, such as color.
             // Use this input to find the "right" player.
-            return _game.GetCurrentPlayer();
+            //return _game.GetCurrentPlayer();
         }
 
 
@@ -133,7 +110,8 @@ namespace WebAPI.Controllers
             string tmp = Request.Form["PlayerID"];
 
 
-            _game.RemovePlayer(color);
+            //_game.RemovePlayer(color);
         }
+        
     }
 }
