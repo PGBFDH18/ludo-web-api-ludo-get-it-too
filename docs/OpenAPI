@@ -63,6 +63,12 @@ paths:
         required: true
         schema:
           type: integer
+      - name: numberOfFields
+        in: query
+        description: How many steps
+        required: true
+        scema:
+          type: integer
 
     delete:
       summary: remove this game
