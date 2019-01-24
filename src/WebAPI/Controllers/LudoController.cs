@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LudoGameEngine;
 using WebAPI.Models;
+
 using Ge = LudoGameEngine;
 
 namespace WebAPI.Controllers
@@ -25,11 +26,20 @@ namespace WebAPI.Controllers
             }
         }
 
-        // GET: api/Ludo
-        [HttpGet]
-        public LudoGame[] GetAllGames()
+        [HttpPost("{gameID}/players/addplayer")]
+        public void AddPlayer([FromBody]long gameID, string name, int colorID)
         {
-            return context.LudoGames.ToArray();
+            context.LudoGames.Find(gameID).AddPlayer(name, colorID);
+        }
+
+        [HttpPut("{gameID}/players/{playerID}")]
+        public void ChangePlayerDetails([FromForm] long gameID, [FromForm] string playerID, int colorID = 9, string name = "")
+        {
+            // Request form allows us to extract data from the parameter in the http request.
+            // So instead of passing the Player object as a parameter to the function,
+            // we can extract the necessary data from the parameter.
+
+            context.LudoGames.Find(gameID).UpdatePlayer(playerID, colorID, name);
         }
 
         // POST: api/ludo/createnewgame
@@ -37,6 +47,13 @@ namespace WebAPI.Controllers
         public void CreateNewGame()
         {
             context.LudoGames.Add(new LudoGame(new Dice()));
+        }
+
+        // GET: api/Ludo
+        [HttpGet]
+        public LudoGame[] GetAllGames()
+        {
+            return context.LudoGames.ToArray();
         }
 
         // GET: api/ludo/{gameID}/getgamedetails
@@ -56,7 +73,7 @@ namespace WebAPI.Controllers
         [HttpDelete("{gameID}/removegame")]
         public void RemoveGame()
         {
-            // Remove the game in the application layer, db?
+            context.LudoGames.Find(gameID).GetCurrentPlayer();
         }
 
         /*[HttpGet("{id}/players/getplayers")]
@@ -78,17 +95,17 @@ namespace WebAPI.Controllers
             //context.Update(context.LudoGames.Find(id).AddPlayer("Samuel", 1));
         }
 
-        [HttpGet("{gameID}/players/{PlayerID}")]
-        public void GetPlayerDetails([FromRoute] string gameID, int colorID)
+        // PUT: api/ludo/{gameID}/movepiece
+        [HttpPut("{gameID}/movepiece")]
+        public void MovePiece([FromForm]long gameID, Player player, int pieceId, int numberOfFields)
         {
             //context.LudoGames.Find(long.Parse(gameID)).GetCurrentPlayer();
             //context.SaveChanges();
 
         }
 
-
-        [HttpPut("{gameID}/players/{playerID}")]
-        public void ChangePlayerDetails([FromRoute] string gameID, [FromForm] string playerID, int colorID = 9, string name = "")
+        [HttpDelete("{gameID}/removegame")]
+        public void RemoveGame()
         {
 
             // Request form allows us to extract data from the parameter in the http request.
@@ -108,6 +125,5 @@ namespace WebAPI.Controllers
 
             //_game.RemovePlayer(color);
         }
-        
     }
 }
