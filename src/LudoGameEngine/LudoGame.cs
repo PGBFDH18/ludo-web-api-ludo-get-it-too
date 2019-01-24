@@ -8,10 +8,10 @@ namespace LudoGameEngine
     public class LudoGame : ILudoGame
     {
         public long Id { get; set; }
-        private List<Player> _players = new List<Player>();
-        private GameState _gameState = GameState.NotStarted;
-        private int currentPlayerId = 0;
-        private IDice _dice = null;
+        public List<Player> _players = new List<Player>();
+        public GameState _gameState = GameState.NotStarted;
+        public int currentPlayerId = 0;
+        public IDice _dice = null;
 
 
         public LudoGame()
