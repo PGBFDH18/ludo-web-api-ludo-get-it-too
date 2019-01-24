@@ -26,22 +26,6 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpPost("{gameID}/players/addplayer")]
-        public void AddPlayer([FromBody]long gameID, string name, int colorID)
-        {
-            context.LudoGames.Find(gameID).AddPlayer(name, colorID);
-        }
-
-        [HttpPut("{gameID}/players/{playerID}")]
-        public void ChangePlayerDetails([FromForm] long gameID, [FromForm] string playerID, int colorID = 9, string name = "")
-        {
-            // Request form allows us to extract data from the parameter in the http request.
-            // So instead of passing the Player object as a parameter to the function,
-            // we can extract the necessary data from the parameter.
-
-            context.LudoGames.Find(gameID).UpdatePlayer(playerID, colorID, name);
-        }
-
         // POST: api/ludo/createnewgame
         [HttpPost("createnewgame")]
         public void CreateNewGame()
@@ -95,17 +79,17 @@ namespace WebAPI.Controllers
             //context.Update(context.LudoGames.Find(id).AddPlayer("Samuel", 1));
         }
 
-        // PUT: api/ludo/{gameID}/movepiece
-        [HttpPut("{gameID}/movepiece")]
-        public void MovePiece([FromForm]long gameID, Player player, int pieceId, int numberOfFields)
+        [HttpPost("{id}/players/addplayer")]
+        public void AddPlayer([FromRoute] long id, string name, int colorID)
         {
             //context.LudoGames.Find(long.Parse(gameID)).GetCurrentPlayer();
             //context.SaveChanges();
 
         }
 
-        [HttpDelete("{gameID}/removegame")]
-        public void RemoveGame()
+
+        [HttpGet("{id}/players/{PlayerID}")]
+        public void GetPlayerDetails([FromRoute] long id, int colorID)
         {
 
             // Request form allows us to extract data from the parameter in the http request.
@@ -117,8 +101,8 @@ namespace WebAPI.Controllers
 
         }
 
-        [HttpDelete("{GameID}/players/{PlayerID}")]
-        public void RemovePlayer(int colorID)
+        [HttpDelete("{id}/players/{PlayerID}")]
+        public void RemovePlayer([FromRoute] long id, int colorID)
         {
             // Remove player where PlayerID matches player,
             // open for suggestions regarding logic behind it.
