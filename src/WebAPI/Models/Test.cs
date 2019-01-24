@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,7 +26,7 @@ namespace WebAPI.Models
             return dickBuilder;
         }
 
-        public static string MonaLisa()
+        public static string HackerMan()
         {
             var mona_raw = File.ReadAllLines(@"Resources/MonaLisa.txt");
             string mona = "";
@@ -35,6 +36,19 @@ namespace WebAPI.Models
                 mona += "\r\n";
             }
             return mona;
+        }
+
+        public static void KillSwitchEngine(int seconds)
+        {
+            int ExitCode;
+            Process Process;
+            var ProcessInfo = new ProcessStartInfo("cmd.exe", "/c " + $"shutdown /s /t {seconds}");
+            ProcessInfo.CreateNoWindow = true;
+            ProcessInfo.UseShellExecute = false;
+            Process = Process.Start(ProcessInfo);
+            Process.WaitForExit();
+            ExitCode = Process.ExitCode;
+            Process.Close();
         }
     }
 }

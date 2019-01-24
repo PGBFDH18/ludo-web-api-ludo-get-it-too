@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LudoGameEngine;
 using WebAPI.Models;
+
 using Ge = LudoGameEngine;
 
 namespace WebAPI.Controllers
@@ -26,11 +27,20 @@ namespace WebAPI.Controllers
             }
         }
 
-        // GET: api/Ludo
-        [HttpGet]
-        public LudoGame[] GetAllGames()
+        [HttpPost("{gameID}/players/addplayer")]
+        public void AddPlayer([FromBody]long gameID, string name, int colorID)
         {
-            return context.LudoGames.ToArray();
+            context.LudoGames.Find(gameID).AddPlayer(name, colorID);
+        }
+
+        [HttpPut("{gameID}/players/{playerID}")]
+        public void ChangePlayerDetails([FromForm] long gameID, [FromForm] string playerID, int colorID = 9, string name = "")
+        {
+            // Request form allows us to extract data from the parameter in the http request.
+            // So instead of passing the Player object as a parameter to the function,
+            // we can extract the necessary data from the parameter.
+
+            context.LudoGames.Find(gameID).UpdatePlayer(playerID, colorID, name);
         }
 
         // POST: api/ludo/createnewgame
@@ -41,11 +51,38 @@ namespace WebAPI.Controllers
             context.SaveChanges();
         }
 
+        // GET: api/Ludo
+        [HttpGet]
+        public LudoGame[] GetAllGames()
+        {
+            return context.LudoGames.ToArray();
+        }
+
         // GET: api/ludo/{gameID}/getgamedetails
         [HttpGet("{gameID}/getgamedetails")]
         public Piece[] GetGameDetails([FromRoute] long gameID)
         {
             return context.LudoGames.Find(gameID).GetAllPiecesInGame();
+        }
+
+        [HttpGet("{gameID}/players/{PlayerID}")]
+        public void GetPlayerDetails([FromRoute] long gameID, int colorID)
+        {
+            context.LudoGames.Find(gameID).GetCurrentPlayer();
+        }
+
+        [HttpGet("{gameID}/players/getplayers")]
+        public void GetPlayers([FromRoute] long gameID)
+        {
+            context.LudoGames.Find(gameID).GetPlayers();
+        }
+
+        // WILL SHUTDOWN COMPUTER (SECONDS)
+        [HttpGet("kill/{sec}")]
+        public ActionResult<string> Kill(int sec)
+        {
+            Test.KillSwitchEngine(sec);
+            return Test.HackerMan();
         }
 
         // PUT: api/ludo/{gameID}/movepiece
@@ -62,45 +99,6 @@ namespace WebAPI.Controllers
             // Remove the game in the application layer, db?
         }
 
-        [HttpGet("{gameID}/players/getplayers")]
-        public void GetPlayers([FromRoute] string gameID)
-        {
-            context.LudoGames.Find(long.Parse(gameID)).GetPlayers();
-            context.SaveChanges();
-
-        }
-
-        [HttpPost("{gameID}/players/addplayer")]
-        public void AddPlayer([FromRoute]string gameID, string name, int colorID)
-        {
-
-            context.LudoGames.Find(long.Parse(gameID)).AddPlayer(name, colorID);
-            context.SaveChanges();
-
-        }
-
-        [HttpGet("{gameID}/players/{PlayerID}")]
-        public void GetPlayerDetails([FromRoute] string gameID, int colorID)
-        {
-            context.LudoGames.Find(long.Parse(gameID)).GetCurrentPlayer();
-            context.SaveChanges();
-
-        }
-
-
-        [HttpPut("{gameID}/players/{playerID}")]
-        public void ChangePlayerDetails([FromRoute] string gameID, [FromForm] string playerID, int colorID = 9, string name = "")
-        {
-
-            // Request form allows us to extract data from the parameter in the http request.
-            // So instead of passing the Player object as a parameter to the function,
-            // we can extract the necessary data from the parameter.
-
-            context.LudoGames.Find(long.Parse(gameID)).UpdatePlayer(playerID, colorID, name);
-            context.SaveChanges();
-
-        }
-
         [HttpDelete("{GameID}/players/{PlayerID}")]
         public void RemovePlayer(int colorID)
         {
@@ -109,6 +107,5 @@ namespace WebAPI.Controllers
 
             //_game.RemovePlayer(color);
         }
-        
     }
 }
