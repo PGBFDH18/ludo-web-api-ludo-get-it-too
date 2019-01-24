@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LudoGameEngine;
 using WebAPI.Models;
+
 using Ge = LudoGameEngine;
 
 namespace WebAPI.Controllers
@@ -26,11 +27,20 @@ namespace WebAPI.Controllers
             }
         }
 
-        // GET: api/Ludo
-        [HttpGet]
-        public LudoGame[] GetAllGames()
+        [HttpPost("{gameID}/players/addplayer")]
+        public void AddPlayer([FromBody]long gameID, string name, int colorID)
         {
-            return context.LudoGames.ToArray();
+            context.LudoGames.Find(gameID).AddPlayer(name, colorID);
+        }
+
+        [HttpPut("{gameID}/players/{playerID}")]
+        public void ChangePlayerDetails([FromForm] long gameID, [FromForm] string playerID, int colorID = 9, string name = "")
+        {
+            // Request form allows us to extract data from the parameter in the http request.
+            // So instead of passing the Player object as a parameter to the function,
+            // we can extract the necessary data from the parameter.
+
+            context.LudoGames.Find(gameID).UpdatePlayer(playerID, colorID, name);
         }
 
         // POST: api/ludo/createnewgame
@@ -39,6 +49,13 @@ namespace WebAPI.Controllers
         {
             context.LudoGames.Add(new LudoGame(new Dice()));
             context.SaveChanges();
+        }
+
+        // GET: api/Ludo
+        [HttpGet]
+        public LudoGame[] GetAllGames()
+        {
+            return context.LudoGames.ToArray();
         }
 
         // GET: api/ludo/{gameID}/getgamedetails
@@ -52,8 +69,7 @@ namespace WebAPI.Controllers
         [HttpPut("{id}/movepiece")]
         public void MovePiece([FromForm]long gameID, Player player, int pieceId, int numberOfFields)
         {
-            context.LudoGames.Find(gameID).MovePiece(player, pieceId, numberOfFields);
-            context.SaveChanges();
+            context.LudoGames.Find(gameID).GetCurrentPlayer();
         }
 
         [HttpDelete("{id}/removegame")]
@@ -106,6 +122,5 @@ namespace WebAPI.Controllers
 
             //_game.RemovePlayer(color);
         }
-        
     }
 }
