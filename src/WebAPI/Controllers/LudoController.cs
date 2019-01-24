@@ -27,22 +27,6 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpPost("{gameID}/players/addplayer")]
-        public void AddPlayer([FromBody]long gameID, string name, int colorID)
-        {
-            context.LudoGames.Find(gameID).AddPlayer(name, colorID);
-        }
-
-        [HttpPut("{gameID}/players/{playerID}")]
-        public void ChangePlayerDetails([FromForm] long gameID, [FromForm] string playerID, int colorID = 9, string name = "")
-        {
-            // Request form allows us to extract data from the parameter in the http request.
-            // So instead of passing the Player object as a parameter to the function,
-            // we can extract the necessary data from the parameter.
-
-            context.LudoGames.Find(gameID).UpdatePlayer(playerID, colorID, name);
-        }
-
         // POST: api/ludo/createnewgame
         [HttpPost("createnewgame")]
         public void CreateNewGame()
