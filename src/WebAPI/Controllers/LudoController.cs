@@ -63,33 +63,42 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("{gameID}/players/getplayers")]
-        public void GetPlayers([FromRoute] long gameID)
+        public void GetPlayers([FromRoute] string gameID)
         {
-            context.LudoGames.Find(gameID).GetPlayers();
+            context.LudoGames.Find(long.Parse(gameID)).GetPlayers();
+            context.SaveChanges();
+
         }
 
         [HttpPost("{gameID}/players/addplayer")]
-        public void AddPlayer([FromBody]long gameID, string name, int colorID)
+        public void AddPlayer([FromRoute]string gameID, string name, int colorID)
         {
-            context.LudoGames.Find(gameID).AddPlayer(name, colorID);
+
+            context.LudoGames.Find(long.Parse(gameID)).AddPlayer(name, colorID);
+            context.SaveChanges();
+
         }
 
         [HttpGet("{gameID}/players/{PlayerID}")]
-        public void GetPlayerDetails([FromRoute] long gameID, int colorID)
+        public void GetPlayerDetails([FromRoute] string gameID, int colorID)
         {
-            context.LudoGames.Find(gameID).GetCurrentPlayer();
+            context.LudoGames.Find(long.Parse(gameID)).GetCurrentPlayer();
+            context.SaveChanges();
+
         }
 
 
         [HttpPut("{gameID}/players/{playerID}")]
-        public void ChangePlayerDetails([FromForm] long gameID, [FromForm] string playerID, int colorID = 9, string name = "")
+        public void ChangePlayerDetails([FromRoute] string gameID, [FromForm] string playerID, int colorID = 9, string name = "")
         {
 
             // Request form allows us to extract data from the parameter in the http request.
             // So instead of passing the Player object as a parameter to the function,
             // we can extract the necessary data from the parameter.
 
-            context.LudoGames.Find(gameID).UpdatePlayer(playerID, colorID, name);
+            context.LudoGames.Find(long.Parse(gameID)).UpdatePlayer(playerID, colorID, name);
+            context.SaveChanges();
+
         }
 
         [HttpDelete("{GameID}/players/{PlayerID}")]

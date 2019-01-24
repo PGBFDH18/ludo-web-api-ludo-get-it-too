@@ -13,7 +13,6 @@ namespace LudoGameEngine
         private int currentPlayerId = 0;
         private IDice _dice = null;
 
-        private PlayerColor color;
 
         public LudoGame()
         {
@@ -27,7 +26,7 @@ namespace LudoGameEngine
 
         public Player AddPlayer(string name, int colorID)
         {
-            color = GetColor(colorID);
+            PlayerColor color = GetColor(colorID);
             if (_gameState != GameState.NotStarted)
             {
                 throw new Exception($"Unable to add player since game is {_gameState}");
