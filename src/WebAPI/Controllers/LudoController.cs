@@ -22,7 +22,6 @@ namespace WebAPI.Controllers
             if (context.LudoGames.Count() == 0)
             {
                 context.LudoGames.Add(new LudoGame(new Dice()));
-                context.SaveChanges();
             }
         }
 
@@ -38,22 +37,20 @@ namespace WebAPI.Controllers
         public void CreateNewGame()
         {
             context.LudoGames.Add(new LudoGame(new Dice()));
-            context.SaveChanges();
         }
 
         // GET: api/ludo/{gameID}/getgamedetails
-        [HttpGet("{gameID}/getgamedetails")]
+        /*[HttpGet("{gameID}/getgamedetails")]
         public Piece[] GetGameDetails([FromRoute] long gameID)
         {
-            return context.LudoGames.Find(gameID).GetAllPiecesInGame();
-        }
+            //return context.LudoGames.Find(gameID).GetAllPiecesInGame();
+        }*/
 
         // PUT: api/ludo/{gameID}/movepiece
         [HttpPut("{gameID}/movepiece")]
         public void MovePiece([FromForm]long gameID, Player player, int pieceId, int numberOfFields)
         {
-            context.LudoGames.Find(gameID).MovePiece(player, pieceId, numberOfFields);
-            context.SaveChanges();
+            //context.LudoGames.Find(gameID).MovePiece(player, pieceId, numberOfFields);
         }
 
         [HttpDelete("{gameID}/removegame")]
@@ -62,28 +59,30 @@ namespace WebAPI.Controllers
             // Remove the game in the application layer, db?
         }
 
-        [HttpGet("{gameID}/players/getplayers")]
-        public void GetPlayers([FromRoute] string gameID)
+        /*[HttpGet("{id}/players/getplayers")]
+        public Player[] GetPlayers(long id)
         {
-            context.LudoGames.Find(long.Parse(gameID)).GetPlayers();
+            //context.LudoGames.Find(id).GetPlayers();
+
+
+            //return context.LudoGames.Find(id).GetPlayers().ToArray();
+        }*/
+
+        [HttpPost("{id}/players/addplayer")]
+        public void AddPlayer(long id/*, string name, int colorID*/)
+        {
+            /*Player p = context.LudoGames.Find(id).AddPlayer("Samuel", 1);
             context.SaveChanges();
 
-        }
-
-        [HttpPost("{gameID}/players/addplayer")]
-        public void AddPlayer([FromRoute]string gameID, string name, int colorID)
-        {
-
-            context.LudoGames.Find(long.Parse(gameID)).AddPlayer(name, colorID);
-            context.SaveChanges();
-
+            return p;*/
+            //context.Update(context.LudoGames.Find(id).AddPlayer("Samuel", 1));
         }
 
         [HttpGet("{gameID}/players/{PlayerID}")]
         public void GetPlayerDetails([FromRoute] string gameID, int colorID)
         {
-            context.LudoGames.Find(long.Parse(gameID)).GetCurrentPlayer();
-            context.SaveChanges();
+            //context.LudoGames.Find(long.Parse(gameID)).GetCurrentPlayer();
+            //context.SaveChanges();
 
         }
 
@@ -96,8 +95,8 @@ namespace WebAPI.Controllers
             // So instead of passing the Player object as a parameter to the function,
             // we can extract the necessary data from the parameter.
 
-            context.LudoGames.Find(long.Parse(gameID)).UpdatePlayer(playerID, colorID, name);
-            context.SaveChanges();
+            //context.LudoGames.Find(long.Parse(gameID)).UpdatePlayer(playerID, colorID, name);
+            //context.SaveChanges();
 
         }
 

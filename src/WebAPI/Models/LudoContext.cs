@@ -4,16 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
-using Microsoft.EntityFrameworkCore;
+
+
 namespace WebAPI.Models
 {
-    public class LudoContext : DbContext
+    public class LudoContext : ILudoContext
     {
-        public LudoContext(DbContextOptions<LudoContext> options)
-            :base(options)
-        {
-        }
+        public long id { get; set; }
+        public List<LudoGame> LudoGames { get; set; }
 
-        public DbSet<LudoGame> LudoGames { get; set; }
+        public void AddGame()
+        {
+            
+        }
     }
 }
