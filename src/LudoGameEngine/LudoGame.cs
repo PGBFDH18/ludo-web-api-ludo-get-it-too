@@ -13,6 +13,8 @@ namespace LudoGameEngine
         private int currentPlayerId = 0;
         private IDice _dice = null;
 
+        private PlayerColor color;
+
         public LudoGame()
         {
             _dice = new Dice();
@@ -23,8 +25,9 @@ namespace LudoGameEngine
             _dice = dice;
         }
 
-        public Player AddPlayer(string name, PlayerColor color)
+        public Player AddPlayer(string name, int colorID)
         {
+            color = GetColor(colorID);
             if (_gameState != GameState.NotStarted)
             {
                 throw new Exception($"Unable to add player since game is {_gameState}");
@@ -211,6 +214,44 @@ namespace LudoGameEngine
                     _players.Remove(player);
                     removed = true;
                 }
+            }
+        }
+
+        public PlayerColor GetColor(int colorID)
+        {
+            if (colorID == 0)
+            {
+                return PlayerColor.Red;
+            }
+            if (colorID == 1)
+            {
+                return PlayerColor.Green;
+            }
+            if (colorID == 2)
+            {
+                return PlayerColor.Blue;
+            }
+            if (colorID == 3)
+            {
+                return PlayerColor.Yellow;
+            }
+            else
+            {
+                return PlayerColor.Red;
+            }
+        }
+
+        public void UpdatePlayer(string playerID, int colorID, string name)
+        {
+            // Be wary, complex code :^ ) ...
+            Player[] p = _players.Where(x => x.PlayerId == int.Parse(playerID)).ToArray();
+            if(colorID != 9)
+            {
+                p[0].PlayerColor = GetColor(colorID);
+            }
+            if(name != "")
+            {
+                p[0].Name = name;
             }
         }
     }

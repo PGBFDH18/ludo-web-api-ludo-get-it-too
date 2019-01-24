@@ -3,7 +3,7 @@ namespace LudoGameEngine
     public interface ILudoGame
     {
         bool StartGame();
-        Player AddPlayer(string name, PlayerColor color);
+        Player AddPlayer(string name, int colorID);
         Player[] GetPlayers();
         GameState GetGameState();
         //void StartTurn(Player player);

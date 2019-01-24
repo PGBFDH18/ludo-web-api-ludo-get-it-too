@@ -42,18 +42,17 @@ namespace WebAPI.Controllers
         }
 
         // GET: api/ludo/{gameID}/getgamedetails
-        [HttpGet("{id}/getgamedetails")]
-        public Piece[] GetGameDetails(long id)
+        [HttpGet("{gameID}/getgamedetails")]
+        public Piece[] GetGameDetails([FromRoute] long gameID)
         {
-            return context.LudoGames.Find(id).GetAllPiecesInGame();
+            return context.LudoGames.Find(gameID).GetAllPiecesInGame();
         }
 
-
         // PUT: api/ludo/{gameID}/movepiece
-        [HttpPut("{id}/movepiece")]
-        public void MovePiece(int id, Player player, int pieceId, int numberOfFields)
+        [HttpPut("{gameID}/movepiece")]
+        public void MovePiece([FromForm]long gameID, Player player, int pieceId, int numberOfFields)
         {
-            context.LudoGames.Find(id).MovePiece(player, pieceId, numberOfFields);
+            context.LudoGames.Find(gameID).MovePiece(player, pieceId, numberOfFields);
             context.SaveChanges();
         }
 
@@ -64,51 +63,40 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("{gameID}/players/getplayers")]
-        public void GetPlayers()
+        public void GetPlayers([FromRoute] long gameID)
         {
-            //return _game.GetPlayers();
+            context.LudoGames.Find(gameID).GetPlayers();
         }
 
-        [HttpPut("{gameID}/players/addplayer")]
-        public void AddPlayer(string name, PlayerColor color)
+        [HttpPost("{gameID}/players/addplayer")]
+        public void AddPlayer([FromBody]long gameID, string name, int colorID)
         {
-            //_game.AddPlayer(name, color);
+            context.LudoGames.Find(gameID).AddPlayer(name, colorID);
         }
 
         [HttpGet("{gameID}/players/{PlayerID}")]
-        public void GetPlayerDetails(PlayerColor color)
+        public void GetPlayerDetails([FromRoute] long gameID, int colorID)
         {
-            // If we assume that PlayerID is the current player :^ )
-            // Perhaps take some sort of input from user, such as color.
-            // Use this input to find the "right" player.
-            //return _game.GetCurrentPlayer();
+            context.LudoGames.Find(gameID).GetCurrentPlayer();
         }
 
 
-        [HttpPut("{gameID}/players/{PlayerID}")]
-        public Player ChangePlayerDetails(Player p, PlayerColor color, string name = "")
+        [HttpPut("{gameID}/players/{playerID}")]
+        public void ChangePlayerDetails([FromForm] long gameID, [FromForm] string playerID, int colorID = 9, string name = "")
         {
 
             // Request form allows us to extract data from the parameter in the http request.
             // So instead of passing the Player object as a parameter to the function,
             // we can extract the necessary data from the parameter.
-            string tmp = Request.Form["PlayerID"];
 
-            p.PlayerColor = color;
-            if(name != "")
-            {
-                p.Name = name;
-            }
-            return p;
+            context.LudoGames.Find(gameID).UpdatePlayer(playerID, colorID, name);
         }
 
         [HttpDelete("{GameID}/players/{PlayerID}")]
-        public void RemovePlayer(PlayerColor color)
+        public void RemovePlayer(int colorID)
         {
             // Remove player where PlayerID matches player,
             // open for suggestions regarding logic behind it.
-            string tmp = Request.Form["PlayerID"];
-
 
             //_game.RemovePlayer(color);
         }
