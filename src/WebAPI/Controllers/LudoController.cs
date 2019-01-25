@@ -12,8 +12,8 @@ namespace WebAPI.Controllers
     [Route("api/[Controller]")]
     public class LudoController : Controller
     {
-        public readonly LudoContext context;
-        public LudoController(LudoContext _context)
+        public readonly ILudoContext context;
+        public LudoController(ILudoContext _context)
         {
             context = _context;
         }
@@ -29,7 +29,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public Dictionary<Guid, LudoGame> GetAllGames()
         {
-            return context.LudoGames;
+            return context.GetAllGames();
         }
 
         // GET: api/ludo/{gameID}/getgamedetails
@@ -49,9 +49,9 @@ namespace WebAPI.Controllers
         [HttpDelete("{id}/removegame")]
         public void RemoveGame([FromForm] Guid id)
         {
-            context.LudoGames.Remove(id);
+            context.RemoveGame(id);
         }
-
+            
         [HttpGet("{id}/players/getplayers")]
         public Player[] GetPlayers(Guid id)
         {

@@ -9,18 +9,33 @@ namespace WebAPI.Models
 {
     public class LudoContext : ILudoContext
     {
-        public Dictionary<Guid, LudoGame> LudoGames { get; set; }
+        public Dictionary<Guid, LudoGame> ludoGames;
+
+        public LudoContext()
+        {
+            ludoGames = new Dictionary<Guid, LudoGame>();
+        }
 
         public void AddGame(LudoGame ludoGame)
         {
             Guid g = Guid.NewGuid();
-            LudoGames.Add(g, ludoGame);
+            ludoGames.Add(g, ludoGame);
         }
 
         public LudoGame GetGame(Guid g)
         {
             // logik
             return null;
+        }
+
+        public Dictionary<Guid, LudoGame> GetAllGames()
+        {
+            return null;
+        }
+
+        public void RemoveGame(Guid id)
+        {
+            ludoGames.Remove(id);
         }
     }
 }
