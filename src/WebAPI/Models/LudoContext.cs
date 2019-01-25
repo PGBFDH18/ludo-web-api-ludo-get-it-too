@@ -10,7 +10,6 @@ namespace WebAPI.Models
     public class LudoContext : ILudoContext
     {
         public Dictionary<Guid, LudoGame> ludoGames;
-
         public LudoContext()
         {
             ludoGames = new Dictionary<Guid, LudoGame>();
@@ -18,7 +17,7 @@ namespace WebAPI.Models
 
         public void AddGame()
         {
-            ludoGames.Add(new Guid(), new LudoGame(new Dice()));
+            ludoGames.Add(Guid.NewGuid(), new LudoGame(new Dice()));
         }
 
         public LudoGame GetGame(Guid g)
