@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LudoGameEngine;
 using WebAPI.Models;
+using System.Collections.Specialized;
+using System.Net;
 
 namespace WebAPI.Controllers
 {
@@ -18,15 +20,26 @@ namespace WebAPI.Controllers
             context = _context;
         }
 
+        // Weird attempt to extract the ID which a game is assigned upon creation.
+        public string SetNewUrl(Guid g)
+        {
+            var url = this.Url.Link($"https://localhost:5001/api/ludo/{0}", g);
+            return url;
+        }
+
         // POST: api/ludo/createnewgame
         [HttpPost("createnewgame")]
         public void CreateNewGame()
         {
-            context.AddGame();
+            // Reason why AddGame returns a Guid object is so we can use the created games ID,
+            // and append it to the URL ex. api/ludo/{gameId}
+            Guid g = context.AddGame();
+            Response.Redirect(SetNewUrl(g), true);
         }
 
+
         // GET: api/Ludo
-        [HttpGet]
+        [HttpGet("getallgames")]
         public Dictionary<Guid, LudoGame> GetAllGames()
         {
             return context.GetAllGames();

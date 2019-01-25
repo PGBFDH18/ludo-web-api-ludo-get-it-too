@@ -7,7 +7,6 @@ namespace LudoGameEngine
 {
     public class LudoGame : ILudoGame
     {
-        public long Id { get; set; }
         public List<Player> _players = new List<Player>();
         public GameState _gameState = GameState.NotStarted;
         public int currentPlayerId = 0;
