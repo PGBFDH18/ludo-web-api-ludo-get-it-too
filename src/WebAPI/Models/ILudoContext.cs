@@ -9,8 +9,10 @@ namespace WebAPI.Models
     public interface ILudoContext
     {
         Guid AddGame();
-        void RemoveGame(Guid id);
-        LudoGame GetGame(Guid g);
+        bool RemoveGame(Guid id);
+        LudoGame GetGame(Guid id);
+        Player GetPlayerDetail(Guid id, int ColorID);
+        Player AddPlayer(Guid id, string name, int colorID);
         Dictionary<Guid, LudoGame> GetAllGames();
     }
 }

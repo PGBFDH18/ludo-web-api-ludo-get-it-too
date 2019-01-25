@@ -29,27 +29,33 @@ namespace WebAPI.Controllers
 
         // POST: api/ludo/createnewgame
         [HttpPost("createnewgame")]
-        public void CreateNewGame()
+        public IActionResult CreateNewGame()
         {
             // Reason why AddGame returns a Guid object is so we can use the created games ID,
             // and append it to the URL ex. api/ludo/{gameId}
             Guid g = context.AddGame();
-            Response.Redirect(SetNewUrl(g), true);
+            return Ok(g);
+            //Response.Redirect(SetNewUrl(g), true);
         }
 
 
-        // GET: api/Ludo
+        // GET: api/Ludo/getallgames
         [HttpGet("getallgames")]
-        public Dictionary<Guid, LudoGame> GetAllGames()
+        public IActionResult GetAllGames()
         {
-            return context.GetAllGames();
+            return Ok(context.GetAllGames());
         }
 
         // GET: api/ludo/{gameID}/getgamedetails
         [HttpGet("{id}/getgamedetails")]
-        public LudoGame GetGameDetails([FromRoute] Guid id)
+        public IActionResult GetGameDetails([FromRoute] Guid id)
         {
-            return context.GetGame(id);
+            if(context.GetGame(id) == null)
+            {
+                return NotFound(id);
+            }
+
+            return Ok(context.GetGame(id));
         }
 
         // PUT: api/ludo/{gameID}/movepiece
@@ -59,28 +65,43 @@ namespace WebAPI.Controllers
             context.GetGame(id).MovePiece(player, pieceId, numberOfFields);
         }
 
+        // DELETE: api/ludo/{gameID}/removegame
         [HttpDelete("{id}/removegame")]
-        public void RemoveGame([FromRoute] Guid id)
+        public IActionResult RemoveGame(Guid id)
         {
-            context.RemoveGame(id);
+            if(!context.RemoveGame(id))
+            {
+                return NotFound(id);
+            }
+            else
+            {
+                return Ok();
+            }
         }
-            
+        
         [HttpGet("{id}/players/getplayers")]
-        public Player[] GetPlayers([FromRoute] Guid id)
+        public Player[] GetPlayers(Guid id)
         {
             return context.GetGame(id).GetPlayers();
         }
 
         [HttpPost("{id}/players/addplayer")]
-        public void AddPlayer([FromRoute] Guid id, string name, int colorID)
+        public IActionResult AddPlayer(Guid id, string name, int colorID)
         {
-            context.GetGame(id).AddPlayer(name, colorID);
+            if(context.AddPlayer(id, name, colorID) == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok(context.GetGame(id).GetPlayer(colorID));
+            }
         }
 
-        [HttpGet("{id}/players/{PlayerID}")]
-        public Player GetPlayerDetails([FromRoute] Guid id, int colorID)
+        [HttpGet("{id}/players")]
+        public IActionResult GetPlayerDetails(Guid id, int colorID)
         {
-            return context.GetGame(id).GetPlayer(colorID);
+            return Ok(context.GetPlayerDetail(id, colorID));
         }
 
         [HttpDelete("{id}/players/{PlayerID}")]
