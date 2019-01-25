@@ -12,7 +12,7 @@ namespace WebAPI.Controllers
     [Route("api/[Controller]")]
     public class LudoController : Controller
     {
-        public readonly ILudoContext context;
+        public ILudoContext context;
         public LudoController(ILudoContext _context)
         {
             context = _context;
@@ -22,7 +22,7 @@ namespace WebAPI.Controllers
         [HttpPost("createnewgame")]
         public void CreateNewGame()
         {
-            context.AddGame(new LudoGame(new Dice()));
+            context.AddGame();
         }
 
         // GET: api/Ludo
