@@ -12,7 +12,7 @@ namespace WebAPI.Controllers
     [Route("api/[Controller]")]
     public class LudoController : Controller
     {
-        private readonly LudoContext context;
+        public readonly LudoContext context;
         public LudoController(LudoContext _context)
         {
             context = _context;
@@ -27,29 +27,29 @@ namespace WebAPI.Controllers
 
         // GET: api/Ludo
         [HttpGet]
-        public LudoGame[] GetAllGames()
+        public Dictionary<Guid, LudoGame> GetAllGames()
         {
-            return null;
+            return context.LudoGames;
         }
 
         // GET: api/ludo/{gameID}/getgamedetails
-        /*[HttpGet("{gameID}/getgamedetails")]
-        public Piece[] GetGameDetails([FromRoute] long gameID)
+        [HttpGet("{id}/getgamedetails")]
+        public LudoGame GetGameDetails([FromRoute] Guid id)
         {
-            //return context.LudoGames.Find(gameID).GetAllPiecesInGame();
-        }*/
+            return context.GetGame(id);
+        }
 
         // PUT: api/ludo/{gameID}/movepiece
         [HttpPut("{id}/movepiece")]
-        public void MovePiece([FromForm]long id, Player player, int pieceId, int numberOfFields)
+        public void MovePiece([FromForm] Guid id, Player player, int pieceId, int numberOfFields)
         {
-            //context.LudoGames.Find(id).MovePiece(player, pieceId, numberOfFields);
+            context.GetGame(id).MovePiece(player, pieceId, numberOfFields);
         }
 
         [HttpDelete("{id}/removegame")]
-        public void RemoveGame()
+        public void RemoveGame([FromForm] Guid id)
         {
-            //context.LudoGames.Find(gameID).GetCurrentPlayer();
+            context.LudoGames.Remove(id);
         }
 
         [HttpGet("{id}/players/getplayers")]
@@ -73,10 +73,7 @@ namespace WebAPI.Controllers
         [HttpDelete("{id}/players/{PlayerID}")]
         public void RemovePlayer([FromRoute] Guid id, int colorID)
         {
-            // Remove player where PlayerID matches player,
-            // open for suggestions regarding logic behind it.
-
-            //_game.RemovePlayer(color);
+            context.GetGame(id).RemovePlayer(colorID);
         }
     }
 }
