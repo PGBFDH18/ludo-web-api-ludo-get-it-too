@@ -1,12 +1,14 @@
-﻿using System;
+﻿using LudoGameEngine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace WebAPI.Models
 {
-    interface ILudoContext
+    public interface ILudoContext
     {
-        void AddGame();
+        void AddGame(LudoGame ludogame);
+        LudoGame GetGame(Guid g);
     }
 }

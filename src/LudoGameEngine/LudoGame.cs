@@ -253,5 +253,10 @@ namespace LudoGameEngine
                 p[0].Name = name;
             }
         }
+
+        public Player GetPlayer(int colorID)
+        {
+            return _players.Find(c => c.PlayerColor == GetColor(colorID));
+        }
     }
 }

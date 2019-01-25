@@ -5,17 +5,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
 
-
 namespace WebAPI.Models
 {
     public class LudoContext : ILudoContext
     {
-        public long id { get; set; }
-        public List<LudoGame> LudoGames { get; set; }
+        public Dictionary<Guid, LudoGame> LudoGames { get; set; }
 
-        public void AddGame()
+        public void AddGame(LudoGame ludoGame)
         {
-            
+            Guid g = Guid.NewGuid();
+            LudoGames.Add(g, ludoGame);
+        }
+
+        public LudoGame GetGame(Guid g)
+        {
+            // logik
+            return null;
         }
     }
 }
