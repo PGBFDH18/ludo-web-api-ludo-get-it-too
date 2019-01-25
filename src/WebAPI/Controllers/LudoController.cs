@@ -41,25 +41,25 @@ namespace WebAPI.Controllers
 
         // PUT: api/ludo/{gameID}/movepiece
         [HttpPut("{id}/movepiece")]
-        public void MovePiece([FromForm] Guid id, Player player, int pieceId, int numberOfFields)
+        public void MovePiece([FromRoute] Guid id, Player player, int pieceId, int numberOfFields)
         {
             context.GetGame(id).MovePiece(player, pieceId, numberOfFields);
         }
 
         [HttpDelete("{id}/removegame")]
-        public void RemoveGame([FromForm] Guid id)
+        public void RemoveGame([FromRoute] Guid id)
         {
             context.RemoveGame(id);
         }
             
         [HttpGet("{id}/players/getplayers")]
-        public Player[] GetPlayers(Guid id)
+        public Player[] GetPlayers([FromRoute] Guid id)
         {
             return context.GetGame(id).GetPlayers();
         }
 
         [HttpPost("{id}/players/addplayer")]
-        public void AddPlayer(Guid id, string name, int colorID)
+        public void AddPlayer([FromRoute] Guid id, string name, int colorID)
         {
             context.GetGame(id).AddPlayer(name, colorID);
         }
