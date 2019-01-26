@@ -66,6 +66,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        // DELETE: api/ludo{gameID}/players
         [HttpDelete("{id}/players")]
         public IActionResult RemovePlayer(Guid id, int colorID)
         {
