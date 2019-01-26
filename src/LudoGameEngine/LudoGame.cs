@@ -201,7 +201,7 @@ namespace LudoGameEngine
             return null;
         }
 
-        public void RemovePlayer(int colorID)
+        public bool RemovePlayer(int colorID)
         {
             bool removed = false;
             foreach (var player in _players)
@@ -210,8 +210,12 @@ namespace LudoGameEngine
                 {
                     _players.Remove(player);
                     removed = true;
+
+                    return removed;
                 }
             }
+
+            return removed;
         }
 
         public PlayerColor GetColor(int colorID)

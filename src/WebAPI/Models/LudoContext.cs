@@ -24,19 +24,23 @@ namespace WebAPI.Models
             return g;
         }
 
-        public LudoGame GetGame(Guid _id)
+        public bool RemoveGame(Guid id)
         {
-            return ludoGames.First(id => id.Key == _id).Value;
-        }
-
-        public Player GetPlayerDetail(Guid id, int colorID)
-        {
-            return ludoGames[id].GetPlayer(colorID);
+            return ludoGames.Remove(id);
         }
 
         public Player AddPlayer(Guid id, string name, int colorID)
         {
+            if (name == null)
+            {
+                return null;
+            }
             return ludoGames[id].AddPlayer(name, colorID);
+        }
+
+        public bool RemovePlayer(Guid id, int colorID)
+        {
+            return ludoGames[id].RemovePlayer(colorID);
         }
 
         public Dictionary<Guid, LudoGame> GetAllGames()
@@ -44,9 +48,24 @@ namespace WebAPI.Models
             return ludoGames;
         }
 
-        public bool RemoveGame(Guid id)
+        public LudoGame GetGameDetail(Guid _id)
         {
-            return ludoGames.Remove(id);
+            return ludoGames.First(id => id.Key == _id).Value;
         }
+
+        public Player[] GetAllPlayers(Guid id)
+        {
+            return ludoGames[id].GetPlayers();
+        }
+
+        public Player GetPlayerDetail(Guid id, int colorID)
+        {
+            return ludoGames[id].GetPlayer(colorID);
+        }
+
+
+
+
+
     }
 }

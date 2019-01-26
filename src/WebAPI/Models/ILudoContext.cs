@@ -10,9 +10,12 @@ namespace WebAPI.Models
     {
         Guid AddGame();
         bool RemoveGame(Guid id);
-        LudoGame GetGame(Guid id);
-        Player GetPlayerDetail(Guid id, int ColorID);
         Player AddPlayer(Guid id, string name, int colorID);
+        bool RemovePlayer(Guid id, int colorID);
         Dictionary<Guid, LudoGame> GetAllGames();
+        LudoGame GetGameDetail(Guid id);
+        Player[] GetAllPlayers(Guid id);
+        Player GetPlayerDetail(Guid id, int ColorID);
+        
     }
 }

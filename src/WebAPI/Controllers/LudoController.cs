@@ -38,6 +38,44 @@ namespace WebAPI.Controllers
             //Response.Redirect(SetNewUrl(g), true);
         }
 
+        // DELETE: api/ludo/{gameID}/removegame
+        [HttpDelete("{id}/removegame")]
+        public IActionResult RemoveGame(Guid id)
+        {
+            if (!context.RemoveGame(id))
+            {
+                return NotFound(id);
+            }
+            else
+            {
+                return Ok();
+            }
+        }
+
+        // POST: api/ludo/{gameID}/players/addplayer?name={input}&colorID={input}
+        [HttpPost("{id}/players/addplayer")]
+        public IActionResult AddPlayer(Guid id, string name, int colorID)
+        {
+            if (context.AddPlayer(id, name, colorID) == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok(context.GetGameDetail(id).GetPlayer(colorID));
+            }
+        }
+
+        [HttpDelete("{id}/players")]
+        public IActionResult RemovePlayer(Guid id, int colorID)
+        {
+            if(!context.RemovePlayer(id, colorID))
+            {
+                return NotFound(new KeyValuePair<Guid, int>(id, colorID));
+            }
+
+            return Ok(new KeyValuePair<Guid, int>(id, colorID));
+        }
 
         // GET: api/Ludo/getallgames
         [HttpGet("getallgames")]
@@ -48,66 +86,47 @@ namespace WebAPI.Controllers
 
         // GET: api/ludo/{gameID}/getgamedetails
         [HttpGet("{id}/getgamedetails")]
-        public IActionResult GetGameDetails([FromRoute] Guid id)
+        public IActionResult GetGameDetails(Guid id)
         {
-            if(context.GetGame(id) == null)
+            if(context.GetGameDetail(id) == null)
             {
                 return NotFound(id);
             }
 
-            return Ok(context.GetGame(id));
+            return Ok(context.GetGameDetail(id));
+        }
+
+        // GET: api/ludo/{gameID}/players/getplayers
+        [HttpGet("{id}/players/getplayers")]
+        public IActionResult GetAllPlayers(Guid id)
+        {
+            if(context.GetAllPlayers(id) == null)
+            {
+                return NotFound(id);
+            }
+
+            return Ok(context.GetAllPlayers(id));
+        }
+
+        // GET: api/ludo/{gameID}/players?colorID={input}
+        [HttpGet("{id}/players")]
+        public IActionResult GetPlayerDetails(Guid id, int colorID)
+        {
+            if(context.GetPlayerDetail(id, colorID) == null)
+            {
+                return NotFound(id);
+            }
+
+            return Ok(context.GetPlayerDetail(id, colorID));
         }
 
         // PUT: api/ludo/{gameID}/movepiece
         [HttpPut("{id}/movepiece")]
-        public void MovePiece([FromRoute] Guid id, Player player, int pieceId, int numberOfFields)
+        public void MovePiece(Guid id, Player player, int pieceId, int numberOfFields)
         {
-            context.GetGame(id).MovePiece(player, pieceId, numberOfFields);
+            context.GetGameDetail(id).MovePiece(player, pieceId, numberOfFields);
         }
 
-        // DELETE: api/ludo/{gameID}/removegame
-        [HttpDelete("{id}/removegame")]
-        public IActionResult RemoveGame(Guid id)
-        {
-            if(!context.RemoveGame(id))
-            {
-                return NotFound(id);
-            }
-            else
-            {
-                return Ok();
-            }
-        }
         
-        [HttpGet("{id}/players/getplayers")]
-        public Player[] GetPlayers(Guid id)
-        {
-            return context.GetGame(id).GetPlayers();
-        }
-
-        [HttpPost("{id}/players/addplayer")]
-        public IActionResult AddPlayer(Guid id, string name, int colorID)
-        {
-            if(context.AddPlayer(id, name, colorID) == null)
-            {
-                return BadRequest();
-            }
-            else
-            {
-                return Ok(context.GetGame(id).GetPlayer(colorID));
-            }
-        }
-
-        [HttpGet("{id}/players")]
-        public IActionResult GetPlayerDetails(Guid id, int colorID)
-        {
-            return Ok(context.GetPlayerDetail(id, colorID));
-        }
-
-        [HttpDelete("{id}/players/{PlayerID}")]
-        public void RemovePlayer([FromRoute] Guid id, int colorID)
-        {
-            context.GetGame(id).RemovePlayer(colorID);
-        }
     }
 }
