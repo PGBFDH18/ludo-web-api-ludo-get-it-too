@@ -63,9 +63,24 @@ namespace WebAPI.Models
             return ludoGames[id].GetPlayer(colorID);
         }
 
+        public Piece MovePiece(Guid id, int pieceId, int numberOfFields)
+        {
+            return ludoGames[id].MovePiece(ludoGames[id].GetCurrentPlayer(), pieceId, numberOfFields);
+        }
 
+        public bool StartGame(Guid id)
+        {
+            return ludoGames[id].StartGame();
+        }
 
+        public int RollDice(Guid id)
+        {
+            return ludoGames[id].RollDice();
+        }
 
-
+        public void EndTurn(Guid id)
+        {
+            ludoGames[id].EndTurn(ludoGames[id].GetCurrentPlayer());
+        }
     }
 }

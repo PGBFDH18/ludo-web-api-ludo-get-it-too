@@ -116,7 +116,7 @@ namespace LudoGameEngine
             return _players.ToArray();
         }
 
-        public void MovePiece(Player player, int pieceId, int numberOfFields)
+        public Piece MovePiece(Player player, int pieceId, int numberOfFields)
         {
             if (_gameState == GameState.Ended)
             {
@@ -151,6 +151,7 @@ namespace LudoGameEngine
                 piece.State = PieceGameState.Goal;
             }
 
+            return piece;
         }
 
         public int RollDice()

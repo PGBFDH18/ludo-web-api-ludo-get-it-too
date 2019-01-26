@@ -70,7 +70,7 @@ namespace WebAPI.Controllers
         [HttpDelete("{id}/players")]
         public IActionResult RemovePlayer(Guid id, int colorID)
         {
-            if(!context.RemovePlayer(id, colorID))
+            if (!context.RemovePlayer(id, colorID))
             {
                 return NotFound(new KeyValuePair<Guid, int>(id, colorID));
             }
@@ -89,7 +89,7 @@ namespace WebAPI.Controllers
         [HttpGet("{id}/getgamedetails")]
         public IActionResult GetGameDetails(Guid id)
         {
-            if(context.GetGameDetail(id) == null)
+            if (context.GetGameDetail(id) == null)
             {
                 return NotFound(id);
             }
@@ -101,7 +101,7 @@ namespace WebAPI.Controllers
         [HttpGet("{id}/players/getplayers")]
         public IActionResult GetAllPlayers(Guid id)
         {
-            if(context.GetAllPlayers(id) == null)
+            if (context.GetAllPlayers(id) == null)
             {
                 return NotFound(id);
             }
@@ -113,7 +113,7 @@ namespace WebAPI.Controllers
         [HttpGet("{id}/players")]
         public IActionResult GetPlayerDetails(Guid id, int colorID)
         {
-            if(context.GetPlayerDetail(id, colorID) == null)
+            if (context.GetPlayerDetail(id, colorID) == null)
             {
                 return NotFound(id);
             }
@@ -121,13 +121,33 @@ namespace WebAPI.Controllers
             return Ok(context.GetPlayerDetail(id, colorID));
         }
 
-        // PUT: api/ludo/{gameID}/movepiece
-        [HttpPut("{id}/movepiece")]
-        public void MovePiece(Guid id, Player player, int pieceId, int numberOfFields)
+        // PUT: api/ludo/{gameID}/startgame
+        [HttpPut("{id}/startgame")]
+        public IActionResult StartGame(Guid id)
         {
-            context.GetGameDetail(id).MovePiece(player, pieceId, numberOfFields);
+            return Ok(context.StartGame(id));
         }
 
-        
+        // GET: api/ludo/{gameID}/rolldice
+        [HttpGet("{id}/rolldice")]
+        public IActionResult RollDice(Guid id)
+        {
+            return Ok(context.RollDice(id));
+        }
+
+        // PUT: api/ludo/{gameID}/movepiece
+        [HttpPut("{id}/movepiece")]
+        public IActionResult MovePiece(Guid id, int pieceId, int numberOfFields)
+        {
+            return Ok(context.MovePiece(id, pieceId, numberOfFields));
+        }
+
+        // PUT: api/ludo/{gameID}/endturn
+        [HttpPut("{id}/endturn")]
+        public IActionResult EndTurn(Guid id)
+        {
+            context.EndTurn(id);
+            return Ok();
+        }
     }
 }

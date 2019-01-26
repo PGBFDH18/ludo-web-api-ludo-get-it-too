@@ -11,7 +11,7 @@ namespace LudoGameEngine
         int RollDice();
 
         bool RemovePlayer(int colorID);
-        void MovePiece(Player player, int pieceId, int numberOfFields);
+        Piece MovePiece(Player player, int pieceId, int numberOfFields);
         void EndTurn(Player player);
 
         Player GetCurrentPlayer();
