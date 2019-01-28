@@ -1,4 +1,4 @@
-openapi: 3.0.0 
+swagger: '2.0' 
 info:
   version: 1.0.1
   title: LUDO
@@ -9,7 +9,7 @@ paths:
   /ludo:
     get:
       summary: list of LUDU-games avaliable
-      operationId: GetGameList
+      operationId: GetAllGames
       responses:
         '200':
           description: Success
@@ -17,13 +17,13 @@ paths:
           description: There are no active games at this moment.
         
     post:
-      summary: make a new game
+      summary: Create a new game
       operationId: CreateNewGame
       responses:
         '200':
-          description: Success, you made a new game
+          description: Success, you've created a new game
         default:
-          description: We could not make a new game at this moment.
+          description: We could not create a new game at this time.
           
   /ludo/{gameID}:
     get:
@@ -32,10 +32,8 @@ paths:
       parameters:
         - name: gameID
           in: path
-          description: The id of the pet to retrieve
+          description: The id of the game.
           required: true
-          schema:
-            type: string
       responses:
         '200':
           description: Success, this is how your game looks.
@@ -53,7 +51,7 @@ paths:
       parameters:
       - name: gameID
         in: path
-        description: The id of the pet to retrieve
+        description: The id of the game to update.
         required: true
         schema:
           type: string
@@ -62,21 +60,21 @@ paths:
         description: ID of one specific piece.            
         required: true
         schema:
-          type: integer
+          type: int
       - name: numberOfFields
         in: query
-        description: How many steps
+        description: How many steps.
         required: true
         scema:
-          type: integer
+          type: int
 
     delete:
-      summary: remove this game
+      summary: Remove this game.
       operationId: RemoveGame
       parameters:
         - name: gameID
           in: path
-          description: The id of the pet to retrieve
+          description: The id of the game to delete.
           required: true
           schema:
             type: string
@@ -85,15 +83,18 @@ paths:
           description: Success, you've deleted the game
         default:
           description: Something went wrong.
+          schema:
+            type: string
+            example: Could not find "{0}", gameID.
 
   /ludo/{gameID}/players:
     get:
       summary : list players in this game
-      operationId: GetPlayers
+      operationId: GetAllPlayers
       parameters:
       - name: gameID
         in: path
-        description: The id of the pet to retrieve
+        description: The id of the game to retrieve all players from.
         required: true
         schema:
           type: string
@@ -114,45 +115,35 @@ paths:
       parameters:
       - name: gameID
         in: path
-        description: The id of the pet to retrieve
+        description: Add player to a game with this ID.
         required: true
-        schema:
-          type: string
       - name: playerName
         in: query
         description: Name of the player
         required: true
-        schema:
-          type: string
       - name: PlayerColor
         in: query
         description: playingcolor of the new player.
         required: true
-        schema:
-          type: integer
 
   /ludo/{gameID}/players/{PlayerID}:
     get:
-      summary: details about player.
+      summary: Get details about player from a specific game.
       operationId: GetPlayerDetails
       parameters:
-      - name: gameID
+      - name: GameID
         in: path
         required: true
-        schema:
-          type: string
-      - name: PlayerID
+      - name: ColorID
         in: path
         required: true
-        schema:
-          type: string
       responses:
         '200':
           description: Success, here's you player
         default:
           description: Something went wrong, check your input.
     put:
-      summary: change name or color on player. color change only possible in game state NotStarted.
+      summary: Change name or color on player. color change only possible in game state NotStarted.
       operationId: ChangePlayerDetails
       responses:
         '200':
@@ -163,24 +154,15 @@ paths:
       - name: gameID
         in: path
         required: true
-        schema:
-          type: string
-      - name: PlayerID
+      - name: oldColorID
         in: path
         required: true
-        schema:
-          type: string
-      - name: PlayerColor
-        in: query
-        description: updates player color.
-        schema:
-          type: integer
-      - name: PlayerName
+      - name: Name
         in: query
         description: updates player name.
-        schema:
-          type: string
-        
+      - name: ColorID
+        in: query
+        description: updates player color.
     delete:
       summary: remove player.
       operationId: RemovePlayer
@@ -188,15 +170,46 @@ paths:
       - name: gameID
         in: path
         required: true
-        schema:
-          type: string
-      - name: PlayerID
+      - name: ColorID
         in: path
         required: true
-        schema:
-          type: string
       responses:  
         default:
           description: Something went wrong
         '200':
           description: Success, player removed.
+  /ludo/{gameID}/startgame:
+  put:
+    summary: Starts the game.
+    operationId: startgame
+    parameters:
+      - name: gameID
+        in: path
+        required: true
+    response:
+      '200':
+        description: Game started.
+      '405':
+        description: Could not start this game.
+  /ludo/{gameID}/endturn:
+    put:
+      summary: Ends a players turn.
+      operationId: endturn
+      response:
+        '200':
+          description: Ended players turn.
+  
+  /ludo/{gameID}/rolldice:
+    get:
+      summary: Rolls the dice
+      operationId: rolldice
+      response:
+        '200':
+          description: Dice has been rolled.
+  /ludo/{gameID}/getwinner:
+    get:
+      summary: Gets the winner.
+      operationId: getwinner
+      response:
+        '200':
+          description: Successful request
