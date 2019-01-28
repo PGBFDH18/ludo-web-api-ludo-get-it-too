@@ -20,5 +20,6 @@ namespace WebAPI.Models
         bool StartGame(Guid id);
         int RollDice(Guid id);
         void EndTurn(Guid id);
+        Player GetWinner(Guid id);
     }
 }

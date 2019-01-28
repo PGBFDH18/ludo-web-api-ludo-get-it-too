@@ -82,5 +82,10 @@ namespace WebAPI.Models
         {
             ludoGames[id].EndTurn(ludoGames[id].GetCurrentPlayer());
         }
+
+        public Player GetWinner(Guid id)
+        {
+            return ludoGames[id].GetWinner();
+        }
     }
 }

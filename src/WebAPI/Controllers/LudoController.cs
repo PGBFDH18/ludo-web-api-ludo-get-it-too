@@ -149,5 +149,13 @@ namespace WebAPI.Controllers
             context.EndTurn(id);
             return Ok();
         }
+
+        // GET: api/ludo/{gameID}/getwinner
+        [HttpGet("{id}/getwinner")]
+        public IActionResult GetWinner(Guid id)
+        {
+            return Ok(context.GetWinner(id));
+        }
+
     }
 }
