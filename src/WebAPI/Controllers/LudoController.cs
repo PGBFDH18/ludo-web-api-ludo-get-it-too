@@ -20,22 +20,12 @@ namespace WebAPI.Controllers
             context = _context;
         }
 
-        // Weird attempt to extract the ID which a game is assigned upon creation.
-        public string SetNewUrl(Guid g)
-        {
-            var url = this.Url.Link($"https://localhost:5001/api/ludo/{0}", g);
-            return url;
-        }
-
         // POST: api/ludo/createnewgame
         [HttpPost("createnewgame")]
         public IActionResult CreateNewGame()
         {
-            // Reason why AddGame returns a Guid object is so we can use the created games ID,
-            // and append it to the URL ex. api/ludo/{gameId}
             Guid g = context.AddGame();
             return Ok(g);
-            //Response.Redirect(SetNewUrl(g), true);
         }
 
         // DELETE: api/ludo/{gameID}/removegame
