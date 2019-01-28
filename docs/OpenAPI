@@ -121,14 +121,10 @@ paths:
         in: query
         description: Name of the player
         required: true
-        schema:
-          type: string
       - name: PlayerColor
         in: query
         description: playingcolor of the new player.
         required: true
-        schema:
-          type: int
 
   /ludo/{gameID}/players/{PlayerID}:
     get:
@@ -138,13 +134,9 @@ paths:
       - name: GameID
         in: path
         required: true
-        schema:
-          type: string
       - name: ColorID
         in: path
         required: true
-        schema:
-          type: int
       responses:
         '200':
           description: Success, here's you player
@@ -162,23 +154,15 @@ paths:
       - name: gameID
         in: path
         required: true
-        schema:
-          type: string
       - name: oldColorID
         in: path
         required: true
-        schema:
-          type: int
       - name: Name
         in: query
         description: updates player name.
-        schema:
-          type: string
       - name: ColorID
         in: query
         description: updates player color.
-        schema:
-          type: int
     delete:
       summary: remove player.
       operationId: RemovePlayer
@@ -186,15 +170,46 @@ paths:
       - name: gameID
         in: path
         required: true
-        schema:
-          type: string
       - name: ColorID
         in: path
         required: true
-        schema:
-          type: int
       responses:  
         default:
           description: Something went wrong
         '200':
           description: Success, player removed.
+  /ludo/{gameID}/startgame:
+  put:
+    summary: Starts the game.
+    operationId: startgame
+    parameters:
+      - name: gameID
+        in: path
+        required: true
+    response:
+      '200':
+        description: Game started.
+      '405':
+        description: Could not start this game.
+  /ludo/{gameID}/endturn:
+    put:
+      summary: Ends a players turn.
+      operationId: endturn
+      response:
+        '200':
+          description: Ended players turn.
+  
+  /ludo/{gameID}/rolldice:
+    get:
+      summary: Rolls the dice
+      operationId: rolldice
+      response:
+        '200':
+          description: Dice has been rolled.
+  /ludo/{gameID}/getwinner:
+    get:
+      summary: Gets the winner.
+      operationId: getwinner
+      response:
+        '200':
+          description: Successful request
