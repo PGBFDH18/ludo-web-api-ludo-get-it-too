@@ -146,6 +146,5 @@ namespace WebAPI.Controllers
         {
             return Ok(context.GetWinner(id));
         }
-
     }
 }

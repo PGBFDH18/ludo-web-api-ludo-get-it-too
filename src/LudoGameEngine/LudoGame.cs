@@ -243,10 +243,10 @@ namespace LudoGameEngine
             }
         }
 
-        public void UpdatePlayer(string playerID, int colorID, string name)
+        public void UpdatePlayer(int colorID, string name)
         {
             // Be wary, complex code :^ ) ...
-            Player[] p = _players.Where(x => x.PlayerId == int.Parse(playerID)).ToArray();
+            Player[] p = _players.Where(x => x.PlayerId == colorID).ToArray();
             if(colorID != 9)
             {
                 p[0].PlayerColor = GetColor(colorID);
