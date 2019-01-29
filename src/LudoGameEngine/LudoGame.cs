@@ -243,18 +243,23 @@ namespace LudoGameEngine
             }
         }
 
-        public void UpdatePlayer(string playerID, int colorID, string name)
+        public Player UpdatePlayer(int oldColorID, string name, int colorID)
         {
             // Be wary, complex code :^ ) ...
-            Player[] p = _players.Where(x => x.PlayerId == int.Parse(playerID)).ToArray();
-            if(colorID != 9)
+            Player p1 = _players.First(x => x.PlayerId == oldColorID);
+
+            
+
+            if(p1.PlayerId != 9)
             {
-                p[0].PlayerColor = GetColor(colorID);
+                p1.PlayerColor = GetColor(colorID);
             }
-            if(name != "")
+            if(p1.Name != "")
             {
-                p[0].Name = name;
+                p1.Name = name;
             }
+
+            return p1;
         }
 
         public Player GetPlayer(int colorID)

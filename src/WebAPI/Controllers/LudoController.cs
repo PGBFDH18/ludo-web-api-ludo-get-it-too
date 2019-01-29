@@ -113,12 +113,26 @@ namespace WebAPI.Controllers
         [HttpGet("{id}/players")]
         public IActionResult GetPlayerDetails(Guid id, int colorID)
         {
-            if (context.GetPlayerDetail(id, colorID) == null)
+            if (context.GetPlayerDetails(id, colorID) == null)
             {
                 return NotFound(id);
             }
 
-            return Ok(context.GetPlayerDetail(id, colorID));
+            return Ok(context.GetPlayerDetails(id, colorID));
+        }
+
+        // PUT: api/ludo/{gameID}/changeplayerdetails
+        [HttpPut("{id}/changeplayerdetails")]
+        public IActionResult ChangePlayerDetails(Guid id,int oldColorID, string name, int colorID)
+        {
+            var foo = context.ChangePlayerDetails(id, oldColorID, name, colorID);
+
+            if (foo == null)
+            {
+                return NotFound(foo);
+            }
+
+            return Ok(foo);
         }
 
         // PUT: api/ludo/{gameID}/startgame

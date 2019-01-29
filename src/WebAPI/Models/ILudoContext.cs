@@ -15,7 +15,8 @@ namespace WebAPI.Models
         Dictionary<Guid, LudoGame> GetAllGames();
         LudoGame GetGameDetail(Guid id);
         Player[] GetAllPlayers(Guid id);
-        Player GetPlayerDetail(Guid id, int ColorID);
+        Player GetPlayerDetails(Guid id, int colorID);
+        Player ChangePlayerDetails(Guid id, int oldColorID, string name, int colorID);
         Piece MovePiece(Guid id, int pieceId, int numberOfFields);
         bool StartGame(Guid id);
         int RollDice(Guid id);

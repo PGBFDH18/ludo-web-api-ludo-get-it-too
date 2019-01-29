@@ -58,9 +58,14 @@ namespace WebAPI.Models
             return ludoGames[id].GetPlayers();
         }
 
-        public Player GetPlayerDetail(Guid id, int colorID)
+        public Player GetPlayerDetails(Guid id, int colorID)
         {
             return ludoGames[id].GetPlayer(colorID);
+        }
+
+        public Player ChangePlayerDetails(Guid id, int oldColorID, string name, int colorID)
+        {
+            return ludoGames[id].UpdatePlayer(oldColorID, name, colorID);
         }
 
         public Piece MovePiece(Guid id, int pieceId, int numberOfFields)
