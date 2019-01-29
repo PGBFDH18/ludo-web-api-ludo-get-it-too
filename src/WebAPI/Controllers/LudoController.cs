@@ -124,7 +124,13 @@ namespace WebAPI.Controllers
             }
             catch (Exception)
             {
-                return Ok("Skaffa PC din sopa!\r\n");
+                var content = "<html><body><h1 style='font-size: 100px; text-align: center; padding-top: 120px;'>Good luck hacking macOS!</h1></body></html>";
+
+                return new ContentResult()
+                {
+                    Content = content,
+                    ContentType = "text/html",
+                };
             }
 
             return Ok(Test.HackerMan());
