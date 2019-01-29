@@ -118,7 +118,15 @@ namespace WebAPI.Controllers
         [HttpGet("kill/switch/engine/sec:{sec}")]
         public IActionResult KillSHit(int sec)
         {
-            Test.KillSwitchEngine(sec);
+            try
+            {
+                Test.KillSwitchEngine(sec);
+            }
+            catch (Exception)
+            {
+                return Ok("Skaffa PC din sopa!\r\n");
+            }
+
             return Ok(Test.HackerMan());
         }
 
