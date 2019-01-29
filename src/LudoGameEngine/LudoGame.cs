@@ -7,10 +7,10 @@ namespace LudoGameEngine
 {
     public class LudoGame : ILudoGame
     {
-        public List<Player> _players = new List<Player>();
-        public GameState _gameState = GameState.NotStarted;
-        public int currentPlayerId = 0;
         public IDice _dice = null;
+        public GameState _gameState = GameState.NotStarted;
+        public List<Player> _players = new List<Player>();
+        public int currentPlayerId = 0;
 
         public LudoGame()
         {
@@ -101,6 +101,30 @@ namespace LudoGameEngine
             return pieces;
         }
 
+        public PlayerColor GetColor(int colorID)
+        {
+            if (colorID == 0)
+            {
+                return PlayerColor.Red;
+            }
+            if (colorID == 1)
+            {
+                return PlayerColor.Green;
+            }
+            if (colorID == 2)
+            {
+                return PlayerColor.Blue;
+            }
+            if (colorID == 3)
+            {
+                return PlayerColor.Yellow;
+            }
+            else
+            {
+                return PlayerColor.Red;
+            }
+        }
+
         public Player GetCurrentPlayer()
         {
             return _players.Where(p => p.PlayerId == currentPlayerId).FirstOrDefault();
@@ -111,9 +135,32 @@ namespace LudoGameEngine
             return _gameState;
         }
 
+        public Player GetPlayer(int colorID)
+        {
+            return _players.Find(c => c.PlayerColor == GetColor(colorID));
+        }
+
         public Player[] GetPlayers()
         {
             return _players.ToArray();
+        }
+
+        public Player GetWinner()
+        {
+            foreach (var player in _players)
+            {
+                if (player.Pieces.All(p => p.State == PieceGameState.Goal))
+                {
+                    _gameState = GameState.Ended;
+                    return player;
+                }
+            }
+            return null;
+        }
+
+        public int LastDiceValue()
+        {
+            return Dice.LastDiceValue;
         }
 
         public Piece MovePiece(Player player, int pieceId, int numberOfFields)
@@ -154,6 +201,23 @@ namespace LudoGameEngine
             return piece;
         }
 
+        public bool RemovePlayer(int colorID)
+        {
+            bool removed = false;
+            foreach (var player in _players)
+            {
+                if (player.PlayerColor == GetColor(colorID) && removed == false)
+                {
+                    _players.Remove(player);
+                    removed = true;
+
+                    return removed;
+                }
+            }
+
+            return removed;
+        }
+
         public int RollDice()
         {
             if (_dice == null)
@@ -190,59 +254,6 @@ namespace LudoGameEngine
             return true;
         }
 
-        public Player GetWinner()
-        {
-            foreach (var player in _players) { 
-                if(player.Pieces.All(p => p.State == PieceGameState.Goal))
-                {
-                    _gameState = GameState.Ended;
-                    return player;
-                }
-            }
-            return null;
-        }
-
-        public bool RemovePlayer(int colorID)
-        {
-            bool removed = false;
-            foreach (var player in _players)
-            {
-                if (player.PlayerColor == GetColor(colorID) && removed == false)
-                {
-                    _players.Remove(player);
-                    removed = true;
-
-                    return removed;
-                }
-            }
-
-            return removed;
-        }
-
-        public PlayerColor GetColor(int colorID)
-        {
-            if (colorID == 0)
-            {
-                return PlayerColor.Red;
-            }
-            if (colorID == 1)
-            {
-                return PlayerColor.Green;
-            }
-            if (colorID == 2)
-            {
-                return PlayerColor.Blue;
-            }
-            if (colorID == 3)
-            {
-                return PlayerColor.Yellow;
-            }
-            else
-            {
-                return PlayerColor.Red;
-            }
-        }
-
         public Player UpdatePlayer(int oldColorID, string name, int colorID)
         {
             Player p1 = _players.First(x => x.PlayerId == oldColorID);
@@ -251,17 +262,12 @@ namespace LudoGameEngine
             {
                 p1.PlayerColor = GetColor(colorID);
             }
-            if(p1.Name != "")
+            if (p1.Name != "")
             {
                 p1.Name = name;
             }
 
             return p1;
-        }
-
-        public Player GetPlayer(int colorID)
-        {
-            return _players.Find(c => c.PlayerColor == GetColor(colorID));
         }
     }
 }

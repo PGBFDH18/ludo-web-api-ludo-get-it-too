@@ -9,8 +9,8 @@ namespace WebAPI.Models
 {
     public class LudoContext : ILudoContext
     {
-        public Dictionary<Guid, LudoGame> ludoGames;
         public Guid g;
+        public Dictionary<Guid, LudoGame> ludoGames;
 
         public LudoContext()
         {
@@ -24,11 +24,6 @@ namespace WebAPI.Models
             return g;
         }
 
-        public bool RemoveGame(Guid id)
-        {
-            return ludoGames.Remove(id);
-        }
-
         public Player AddPlayer(Guid id, string name, int colorID)
         {
             if (name == null)
@@ -38,49 +33,9 @@ namespace WebAPI.Models
             return ludoGames[id].AddPlayer(name, colorID);
         }
 
-        public bool RemovePlayer(Guid id, int colorID)
-        {
-            return ludoGames[id].RemovePlayer(colorID);
-        }
-
-        public Dictionary<Guid, LudoGame> GetAllGames()
-        {
-            return ludoGames;
-        }
-
-        public LudoGame GetGameDetail(Guid _id)
-        {
-            return ludoGames.First(id => id.Key == _id).Value;
-        }
-
-        public Player[] GetAllPlayers(Guid id)
-        {
-            return ludoGames[id].GetPlayers();
-        }
-
-        public Player GetPlayerDetails(Guid id, int colorID)
-        {
-            return ludoGames[id].GetPlayer(colorID);
-        }
-
         public Player ChangePlayerDetails(Guid id, int oldColorID, string name, int colorID)
         {
             return ludoGames[id].UpdatePlayer(oldColorID, name, colorID);
-        }
-
-        public Piece MovePiece(Guid id, int pieceId, int numberOfFields)
-        {
-            return ludoGames[id].MovePiece(ludoGames[id].GetCurrentPlayer(), pieceId, numberOfFields);
-        }
-
-        public bool StartGame(Guid id)
-        {
-            return ludoGames[id].StartGame();
-        }
-
-        public int RollDice(Guid id)
-        {
-            return ludoGames[id].RollDice();
         }
 
         public void EndTurn(Guid id)
@@ -88,9 +43,59 @@ namespace WebAPI.Models
             ludoGames[id].EndTurn(ludoGames[id].GetCurrentPlayer());
         }
 
+        public Dictionary<Guid, LudoGame> GetAllGames()
+        {
+            return ludoGames;
+        }
+
+        public Player[] GetAllPlayers(Guid id)
+        {
+            return ludoGames[id].GetPlayers();
+        }
+
+        public LudoGame GetGameDetail(Guid _id)
+        {
+            return ludoGames.First(id => id.Key == _id).Value;
+        }
+
+        public Player GetPlayerDetails(Guid id, int colorID)
+        {
+            return ludoGames[id].GetPlayer(colorID);
+        }
+
         public Player GetWinner(Guid id)
         {
             return ludoGames[id].GetWinner();
+        }
+
+        public int LastDiceValue(Guid id)
+        {
+            return ludoGames[id].LastDiceValue();
+        }
+
+        public Piece MovePiece(Guid id, int pieceId, int numberOfFields)
+        {
+            return ludoGames[id].MovePiece(ludoGames[id].GetCurrentPlayer(), pieceId, numberOfFields);
+        }
+
+        public bool RemoveGame(Guid id)
+        {
+            return ludoGames.Remove(id);
+        }
+
+        public bool RemovePlayer(Guid id, int colorID)
+        {
+            return ludoGames[id].RemovePlayer(colorID);
+        }
+
+        public int RollDice(Guid id)
+        {
+            return ludoGames[id].RollDice();
+        }
+
+        public bool StartGame(Guid id)
+        {
+            return ludoGames[id].StartGame();
         }
     }
 }

@@ -131,10 +131,10 @@ namespace WebAPI.Controllers
         }
 
         // PUT: api/ludo/{gameID}/movepiece
-        [HttpPut("{id}/movepiece")]
-        public IActionResult MovePiece(Guid id, int pieceId, int numberOfFields)
+        [HttpPut("{id}/movepiece{piceId}")]
+        public IActionResult MovePiece(Guid id, int pieceId)
         {
-            return Ok(context.MovePiece(id, pieceId, numberOfFields));
+            return Ok(context.MovePiece(id, pieceId, context.LastDiceValue(id)));
         }
 
         // DELETE: api/ludo/{gameID}/removegame
