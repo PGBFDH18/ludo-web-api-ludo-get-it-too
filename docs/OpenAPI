@@ -1,0 +1,215 @@
+swagger: '2.0' 
+info:
+  version: 1.0.1
+  title: LUDO
+  description: Välkommen till Fia med Knuff
+servers:
+  - url: https://facebook.com/
+paths:
+  /ludo:
+    get:
+      summary: list of LUDU-games avaliable
+      operationId: GetAllGames
+      responses:
+        '200':
+          description: Success
+        default:
+          description: There are no active games at this moment.
+        
+    post:
+      summary: Create a new game
+      operationId: CreateNewGame
+      responses:
+        '200':
+          description: Success, you've created a new game
+        default:
+          description: We could not create a new game at this time.
+          
+  /ludo/{gameID}:
+    get:
+      summary: details about the game, positioning of the pieces, colors in play.
+      operationId: GetGameDetails
+      parameters:
+        - name: gameID
+          in: path
+          description: The id of the game.
+          required: true
+      responses:
+        '200':
+          description: Success, this is how your game looks.
+        default:
+          description: Something went wrong, invalid gameID perhaps.
+
+    put:
+      summary: change positioning of a piece
+      operationId: MovePiece
+      responses:
+        '200':
+          description: Success, you moved a piece.
+        default:
+          description: Could not move piece, check input.
+      parameters:
+      - name: gameID
+        in: path
+        description: The id of the game to update.
+        required: true
+        schema:
+          type: string
+      - name: pieceID
+        in: query
+        description: ID of one specific piece.            
+        required: true
+        schema:
+          type: int
+      - name: numberOfFields
+        in: query
+        description: How many steps.
+        required: true
+        scema:
+          type: int
+
+    delete:
+      summary: Remove this game.
+      operationId: RemoveGame
+      parameters:
+        - name: gameID
+          in: path
+          description: The id of the game to delete.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success, you've deleted the game
+        default:
+          description: Something went wrong.
+          schema:
+            type: string
+            example: Could not find "{0}", gameID.
+
+  /ludo/{gameID}/players:
+    get:
+      summary : list players in this game
+      operationId: GetAllPlayers
+      parameters:
+      - name: gameID
+        in: path
+        description: The id of the game to retrieve all players from.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success, here's your list of players.
+        default:
+          description: There are no players in this game
+
+    put:
+      summary: add new player, only applicable if game state is NotStarted
+      operationId: AddPlayer
+      responses:
+        '200':
+          description: Success, you added a player
+        default:
+          description: Only applicable if the game is not started
+      parameters:
+      - name: gameID
+        in: path
+        description: Add player to a game with this ID.
+        required: true
+      - name: playerName
+        in: query
+        description: Name of the player
+        required: true
+      - name: PlayerColor
+        in: query
+        description: playingcolor of the new player.
+        required: true
+
+  /ludo/{gameID}/players/{PlayerID}:
+    get:
+      summary: Get details about player from a specific game.
+      operationId: GetPlayerDetails
+      parameters:
+      - name: GameID
+        in: path
+        required: true
+      - name: ColorID
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Success, here's you player
+        default:
+          description: Something went wrong, check your input.
+    put:
+      summary: Change name or color on player. color change only possible in game state NotStarted.
+      operationId: ChangePlayerDetails
+      responses:
+        '200':
+          description: Success, player updated
+        default:
+          description: Invalid input perhaps
+      parameters:
+      - name: gameID
+        in: path
+        required: true
+      - name: oldColorID
+        in: path
+        required: true
+      - name: Name
+        in: query
+        description: updates player name.
+      - name: ColorID
+        in: query
+        description: updates player color.
+    delete:
+      summary: remove player.
+      operationId: RemovePlayer
+      parameters:
+      - name: gameID
+        in: path
+        required: true
+      - name: ColorID
+        in: path
+        required: true
+      responses:  
+        default:
+          description: Something went wrong
+        '200':
+          description: Success, player removed.
+  /ludo/{gameID}/startgame:
+  put:
+    summary: Starts the game.
+    operationId: startgame
+    parameters:
+      - name: gameID
+        in: path
+        required: true
+    response:
+      '200':
+        description: Game started.
+      '405':
+        description: Could not start this game.
+  /ludo/{gameID}/endturn:
+    put:
+      summary: Ends a players turn.
+      operationId: endturn
+      response:
+        '200':
+          description: Ended players turn.
+  
+  /ludo/{gameID}/rolldice:
+    get:
+      summary: Rolls the dice
+      operationId: rolldice
+      response:
+        '200':
+          description: Dice has been rolled.
+  /ludo/{gameID}/getwinner:
+    get:
+      summary: Gets the winner.
+      operationId: getwinner
+      response:
+        '200':
+          description: Successful request
