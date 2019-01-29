@@ -245,12 +245,9 @@ namespace LudoGameEngine
 
         public Player UpdatePlayer(int oldColorID, string name, int colorID)
         {
-            // Be wary, complex code :^ ) ...
             Player p1 = _players.First(x => x.PlayerId == oldColorID);
 
-            
-
-            if(p1.PlayerId != 9)
+            if (p1.PlayerId != 9)
             {
                 p1.PlayerColor = GetColor(colorID);
             }
