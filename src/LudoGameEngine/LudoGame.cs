@@ -11,6 +11,7 @@ namespace LudoGameEngine
         public GameState gameState = GameState.NotStarted;
         public List<Player> players = new List<Player>();
         public int currentPlayerId = 0;
+        public int currentDiceRoll = 0;
 
         public LudoGame()
         {
@@ -64,11 +65,13 @@ namespace LudoGameEngine
             int numberOfPlayers = players.Count();
             int nextPlayerId = player.PlayerId + 1;
 
-            if (nextPlayerId <= numberOfPlayers - 1)
+
+            // currentPlayerId will only update as long as currentDiceRoll isn't 6.
+            if (nextPlayerId <= numberOfPlayers - 1 && currentDiceRoll != 6)
             {
                 currentPlayerId = nextPlayerId;
             }
-            else
+            else if(currentDiceRoll != 6)
             {
                 currentPlayerId = nextPlayerId - numberOfPlayers;
             }
@@ -83,7 +86,7 @@ namespace LudoGameEngine
             }
         }
 
-        public IEnumerable<Piece> GetAllPiecesInGame()
+        public Piece[] GetAllPiecesInGame()
         {
             int numberOfPieces = players.Count() * 4;
             Piece[] pieces = new Piece[numberOfPieces];
@@ -140,7 +143,7 @@ namespace LudoGameEngine
             return players.Find(c => c.PlayerColor == GetColor(colorID));
         }
 
-        public IEnumerable<Player> GetPlayers()
+        public Player[] GetPlayers()
         {
             return players.ToArray();
         }
@@ -176,6 +179,11 @@ namespace LudoGameEngine
             }
 
             var piece = player.Pieces.First(p => p.PieceId == pieceId);
+
+            // Finds the currentplayer and updates the position of selected piece.
+
+            //players.First(p => p.PlayerId == currentPlayerId).Pieces.First(x => x.PieceId == pieceId)
+            //    .UpdatePosition(numberOfFields);
 
             if (piece.State == PieceGameState.Goal)
             {
@@ -230,7 +238,7 @@ namespace LudoGameEngine
                 throw new Exception($"Unable roll dice since the game is not started, it's current state is: {gameState}");
             }
 
-            return dice.RollDice();
+            return currentDiceRoll;
         }
 
         public bool StartGame()

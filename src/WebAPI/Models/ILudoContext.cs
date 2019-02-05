@@ -18,7 +18,7 @@ namespace WebAPI.Models
 
         Dictionary<Guid, LudoGame> GetAllGames();
 
-        IEnumerable<Player> GetAllPlayers(Guid id);
+        Player[] GetAllPlayers(Guid id);
 
         LudoGame GetGameDetail(Guid id);
 

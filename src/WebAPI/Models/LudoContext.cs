@@ -48,7 +48,7 @@ namespace WebAPI.Models
             return ludoGames;
         }
 
-        public IEnumerable<Player> GetAllPlayers(Guid id)
+        public Player[] GetAllPlayers(Guid id)
         {
             return ludoGames[id].GetPlayers();
         }
