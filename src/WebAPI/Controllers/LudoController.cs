@@ -116,7 +116,7 @@ namespace WebAPI.Controllers
         }
 
         // PUT: api/ludo/{gameID}/movepiece
-        [HttpPut("{id}/movepiece{piceId}")]
+        [HttpPut("{id}/movepiece{pieceId}")]
         public IActionResult MovePiece(Guid id, int pieceId)
         {
             return Ok(context.MovePiece(id, pieceId, context.LastDiceValue(id)));

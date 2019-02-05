@@ -64,11 +64,13 @@ namespace LudoGameEngine
             int numberOfPlayers = players.Count();
             int nextPlayerId = player.PlayerId + 1;
 
-            if (nextPlayerId <= numberOfPlayers - 1)
+
+            // currentPlayerId will only update as long as currentDiceRoll isn't 6.
+            if (nextPlayerId <= numberOfPlayers - 1 && currentDiceRoll != 6)
             {
                 currentPlayerId = nextPlayerId;
             }
-            else
+            else if(currentDiceRoll != 6)
             {
                 currentPlayerId = nextPlayerId - numberOfPlayers;
             }
@@ -83,7 +85,7 @@ namespace LudoGameEngine
             }
         }
 
-        public IEnumerable<Piece> GetAllPiecesInGame()
+        public Piece[] GetAllPiecesInGame()
         {
             int numberOfPieces = players.Count() * 4;
             Piece[] pieces = new Piece[numberOfPieces];
@@ -127,7 +129,7 @@ namespace LudoGameEngine
 
         public Player GetCurrentPlayer()
         {
-            return players.Where(p => p.PlayerId == currentPlayerId).FirstOrDefault();
+            return players.First(p => p.PlayerId == currentPlayerId);
         }
 
         public GameState GetGameState()
@@ -140,7 +142,7 @@ namespace LudoGameEngine
             return players.Find(c => c.PlayerColor == GetColor(colorID));
         }
 
-        public IEnumerable<Player> GetPlayers()
+        public Player[] GetPlayers()
         {
             return players.ToArray();
         }
@@ -230,7 +232,7 @@ namespace LudoGameEngine
                 throw new Exception($"Unable roll dice since the game is not started, it's current state is: {gameState}");
             }
 
-            return dice.RollDice();
+            return currentDiceRoll;
         }
 
         public bool StartGame()

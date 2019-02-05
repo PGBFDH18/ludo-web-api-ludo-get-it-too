@@ -6,7 +6,7 @@ namespace LudoGameEngine
     {
         bool StartGame();
         Player AddPlayer(string name, int colorID);
-        IEnumerable<Player> GetPlayers();
+        Player[] GetPlayers();
         GameState GetGameState();
         //void StartTurn(Player player);
 
@@ -17,7 +17,7 @@ namespace LudoGameEngine
         void EndTurn(Player player);
 
         Player GetCurrentPlayer();
-        IEnumerable<Piece> GetAllPiecesInGame();
+        Piece[] GetAllPiecesInGame();
 
         Player GetWinner();
     }
