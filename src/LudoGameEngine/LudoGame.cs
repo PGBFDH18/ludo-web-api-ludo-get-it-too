@@ -11,7 +11,6 @@ namespace LudoGameEngine
         public GameState gameState = GameState.NotStarted;
         public List<Player> players = new List<Player>();
         public int currentPlayerId = 0;
-        public int currentDiceRoll = 0;
 
         public LudoGame()
         {
@@ -130,7 +129,7 @@ namespace LudoGameEngine
 
         public Player GetCurrentPlayer()
         {
-            return players.Where(p => p.PlayerId == currentPlayerId).FirstOrDefault();
+            return players.First(p => p.PlayerId == currentPlayerId);
         }
 
         public GameState GetGameState()
@@ -179,11 +178,6 @@ namespace LudoGameEngine
             }
 
             var piece = player.Pieces.First(p => p.PieceId == pieceId);
-
-            // Finds the currentplayer and updates the position of selected piece.
-
-            //players.First(p => p.PlayerId == currentPlayerId).Pieces.First(x => x.PieceId == pieceId)
-            //    .UpdatePosition(numberOfFields);
 
             if (piece.State == PieceGameState.Goal)
             {
