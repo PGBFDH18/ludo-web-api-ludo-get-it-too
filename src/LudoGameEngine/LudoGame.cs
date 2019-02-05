@@ -7,19 +7,19 @@ namespace LudoGameEngine
 {
     public class LudoGame : ILudoGame
     {
-        public List<Player> _players = new List<Player>();
+        public IDice _dice = null;
         public GameState _gameState = GameState.NotStarted;
+        public List<Player> _players = new List<Player>();
         public int currentPlayerId = 0;
-        public IDice dice = null;
 
         public LudoGame()
         {
-            dice = new Dice();
+            _dice = new Dice();
         }
 
         public LudoGame(IDice dice)
         {
-            this.dice = dice;
+            _dice = dice;
         }
 
         public Player AddPlayer(string name, int colorID)
@@ -83,7 +83,7 @@ namespace LudoGameEngine
             }
         }
 
-        public IEnumerable<Piece> GetAllPiecesInGame()
+        public Piece[] GetAllPiecesInGame()
         {
             int numberOfPieces = _players.Count() * 4;
             Piece[] pieces = new Piece[numberOfPieces];
@@ -101,6 +101,30 @@ namespace LudoGameEngine
             return pieces;
         }
 
+        public PlayerColor GetColor(int colorID)
+        {
+            if (colorID == 0)
+            {
+                return PlayerColor.Red;
+            }
+            if (colorID == 1)
+            {
+                return PlayerColor.Green;
+            }
+            if (colorID == 2)
+            {
+                return PlayerColor.Blue;
+            }
+            if (colorID == 3)
+            {
+                return PlayerColor.Yellow;
+            }
+            else
+            {
+                return PlayerColor.Red;
+            }
+        }
+
         public Player GetCurrentPlayer()
         {
             return _players.Where(p => p.PlayerId == currentPlayerId).FirstOrDefault();
@@ -111,9 +135,32 @@ namespace LudoGameEngine
             return _gameState;
         }
 
-        public IEnumerable<Player> GetPlayers()
+        public Player GetPlayer(int colorID)
+        {
+            return _players.Find(c => c.PlayerColor == GetColor(colorID));
+        }
+
+        public Player[] GetPlayers()
         {
             return _players.ToArray();
+        }
+
+        public Player GetWinner()
+        {
+            foreach (var player in _players)
+            {
+                if (player.Pieces.All(p => p.State == PieceGameState.Goal))
+                {
+                    _gameState = GameState.Ended;
+                    return player;
+                }
+            }
+            return null;
+        }
+
+        public int LastDiceValue()
+        {
+            return Dice.LastDiceValue;
         }
 
         public Piece MovePiece(Player player, int pieceId, int numberOfFields)
@@ -154,9 +201,26 @@ namespace LudoGameEngine
             return piece;
         }
 
+        public bool RemovePlayer(int colorID)
+        {
+            bool removed = false;
+            foreach (var player in _players)
+            {
+                if (player.PlayerColor == GetColor(colorID) && removed == false)
+                {
+                    _players.Remove(player);
+                    removed = true;
+
+                    return removed;
+                }
+            }
+
+            return removed;
+        }
+
         public int RollDice()
         {
-            if (dice == null)
+            if (_dice == null)
             {
                 throw new NullReferenceException("Dice is not set to an instance");
             }
@@ -166,7 +230,7 @@ namespace LudoGameEngine
                 throw new Exception($"Unable roll dice since the game is not started, it's current state is: {_gameState}");
             }
 
-            return dice.RollDice();
+            return _dice.RollDice();
         }
 
         public bool StartGame()
@@ -190,76 +254,20 @@ namespace LudoGameEngine
             return true;
         }
 
-        public Player GetWinner()
+        public Player UpdatePlayer(int oldColorID, string name, int colorID)
         {
-            foreach (var player in _players) { 
-                if(player.Pieces.All(p => p.State == PieceGameState.Goal))
-                {
-                    _gameState = GameState.Ended;
-                    return player;
-                }
-            }
-            return null;
-        }
+            Player p1 = _players.First(x => x.PlayerId == oldColorID);
 
-        public bool RemovePlayer(int colorID)
-        {
-            bool removed = false;
-            foreach (var player in _players)
+            if (p1.PlayerId != 9)
             {
-                if (player.PlayerColor == GetColor(colorID) && removed == false)
-                {
-                    _players.Remove(player);
-                    removed = true;
-
-                    return removed;
-                }
+                p1.PlayerColor = GetColor(colorID);
+            }
+            if (p1.Name != "")
+            {
+                p1.Name = name;
             }
 
-            return removed;
-        }
-
-        public PlayerColor GetColor(int colorID)
-        {
-            if (colorID == 0)
-            {
-                return PlayerColor.Red;
-            }
-            if (colorID == 1)
-            {
-                return PlayerColor.Green;
-            }
-            if (colorID == 2)
-            {
-                return PlayerColor.Blue;
-            }
-            if (colorID == 3)
-            {
-                return PlayerColor.Yellow;
-            }
-            else
-            {
-                return PlayerColor.Red;
-            }
-        }
-
-        public void UpdatePlayer(int colorID, string name)
-        {
-            // Be wary, complex code :^ ) ...
-            Player[] p = _players.Where(x => x.PlayerId == colorID).ToArray();
-            if(colorID != 9)
-            {
-                p[0].PlayerColor = GetColor(colorID);
-            }
-            if(name != "")
-            {
-                p[0].Name = name;
-            }
-        }
-
-        public Player GetPlayer(int colorID)
-        {
-            return _players.Find(c => c.PlayerColor == GetColor(colorID));
+            return p1;
         }
     }
 }

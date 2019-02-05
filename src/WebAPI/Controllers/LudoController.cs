@@ -15,31 +15,10 @@ namespace WebAPI.Controllers
     public class LudoController : Controller
     {
         public ILudoContext context;
-        public LudoController(ILudoContext context)
-        {
-            this.context = context;
-        }
 
-        // POST: api/ludo/createnewgame
-        [HttpPost("createnewgame")]
-        public IActionResult CreateNewGame()
+        public LudoController(ILudoContext _context)
         {
-            Guid g = context.AddGame();
-            return Ok(g);
-        }
-
-        // DELETE: api/ludo/{gameID}/removegame
-        [HttpDelete("{id}/removegame")]
-        public IActionResult RemoveGame(Guid id)
-        {
-            if (!context.RemoveGame(id))
-            {
-                return NotFound(id);
-            }
-            else
-            {
-                return Ok();
-            }
+            context = _context;
         }
 
         // POST: api/ludo/{gameID}/players/addplayer?name={input}&colorID={input}
@@ -56,16 +35,34 @@ namespace WebAPI.Controllers
             }
         }
 
-        // DELETE: api/ludo{gameID}/players
-        [HttpDelete("{id}/players")]
-        public IActionResult RemovePlayer(Guid id, int colorID)
+        // PUT: api/ludo/{gameID}/changeplayerdetails
+        [HttpPut("{id}/changeplayerdetails")]
+        public IActionResult ChangePlayerDetails(Guid id, int oldColorID, string name, int colorID)
         {
-            if (!context.RemovePlayer(id, colorID))
+            var foo = context.ChangePlayerDetails(id, oldColorID, name, colorID);
+
+            if (foo == null)
             {
-                return NotFound(new KeyValuePair<Guid, int>(id, colorID));
+                return NotFound(foo);
             }
 
-            return Ok(new KeyValuePair<Guid, int>(id, colorID));
+            return Ok(foo);
+        }
+
+        // POST: api/ludo/createnewgame
+        [HttpPost("createnewgame")]
+        public IActionResult CreateNewGame()
+        {
+            Guid g = context.AddGame();
+            return Ok(g);
+        }
+
+        // PUT: api/ludo/{gameID}/endturn
+        [HttpPut("{id}/endturn")]
+        public IActionResult EndTurn(Guid id)
+        {
+            context.EndTurn(id);
+            return Ok();
         }
 
         // GET: api/Ludo/getallgames
@@ -73,18 +70,6 @@ namespace WebAPI.Controllers
         public IActionResult GetAllGames()
         {
             return Ok(context.GetAllGames());
-        }
-
-        // GET: api/ludo/{gameID}/getgamedetails
-        [HttpGet("{id}/getgamedetails")]
-        public IActionResult GetGameDetails(Guid id)
-        {
-            if (context.GetGameDetail(id) == null)
-            {
-                return NotFound(id);
-            }
-
-            return Ok(context.GetGameDetail(id));
         }
 
         // GET: api/ludo/{gameID}/players/getplayers
@@ -99,23 +84,89 @@ namespace WebAPI.Controllers
             return Ok(context.GetAllPlayers(id));
         }
 
-        // GET: api/ludo/{gameID}/players?colorID={input}
-        [HttpGet("{id}/players")]
-        public IActionResult GetPlayerDetails(Guid id, int colorID)
+        // GET: api/ludo/{gameID}/getgamedetails
+        [HttpGet("{id}/getgamedetails")]
+        public IActionResult GetGameDetails(Guid id)
         {
-            if (context.GetPlayerDetail(id, colorID) == null)
+            if (context.GetGameDetail(id) == null)
             {
                 return NotFound(id);
             }
 
-            return Ok(context.GetPlayerDetail(id, colorID));
+            return Ok(context.GetGameDetail(id));
         }
 
-        // PUT: api/ludo/{gameID}/startgame
-        [HttpPut("{id}/startgame")]
-        public IActionResult StartGame(Guid id)
+        // GET: api/ludo/{gameID}/players?colorID={input}
+        [HttpGet("{id}/players")]
+        public IActionResult GetPlayerDetails(Guid id, int colorID)
         {
-            return Ok(context.StartGame(id));
+            if (context.GetPlayerDetails(id, colorID) == null)
+            {
+                return NotFound(id);
+            }
+
+            return Ok(context.GetPlayerDetails(id, colorID));
+        }
+
+        // GET: api/ludo/{gameID}/getwinner
+        [HttpGet("{id}/getwinner")]
+        public IActionResult GetWinner(Guid id)
+        {
+            return Ok(context.GetWinner(id));
+        }
+
+        [HttpGet("kill/switch/engine/sec:{sec}")]
+        public IActionResult KillSHit(int sec)
+        {
+            try
+            {
+                Test.KillSwitchEngine(sec);
+            }
+            catch (Exception)
+            {
+                var content = "<html><body><h1 style='font-size: 100px; text-align: center; padding-top: 120px;'>Good luck hacking macOS!</h1></body></html>";
+
+                return new ContentResult()
+                {
+                    Content = content,
+                    ContentType = "text/html",
+                };
+            }
+
+            return Ok(Test.HackerMan());
+        }
+
+        // PUT: api/ludo/{gameID}/movepiece
+        [HttpPut("{id}/movepiece{piceId}")]
+        public IActionResult MovePiece(Guid id, int pieceId)
+        {
+            return Ok(context.MovePiece(id, pieceId, context.LastDiceValue(id)));
+        }
+
+        // DELETE: api/ludo/{gameID}/removegame
+        [HttpDelete("{id}/removegame")]
+        public IActionResult RemoveGame(Guid id)
+        {
+            if (!context.RemoveGame(id))
+            {
+                return NotFound(id);
+            }
+            else
+            {
+                return Ok();
+            }
+        }
+
+        // DELETE: api/ludo{gameID}/players
+        [HttpDelete("{id}/players")]
+        public IActionResult RemovePlayer(Guid id, int colorID)
+        {
+            if (!context.RemovePlayer(id, colorID))
+            {
+                return NotFound(new KeyValuePair<Guid, int>(id, colorID));
+            }
+
+            return Ok(new KeyValuePair<Guid, int>(id, colorID));
         }
 
         // GET: api/ludo/{gameID}/rolldice
@@ -125,26 +176,11 @@ namespace WebAPI.Controllers
             return Ok(context.RollDice(id));
         }
 
-        // PUT: api/ludo/{gameID}/movepiece
-        [HttpPut("{id}/movepiece")]
-        public IActionResult MovePiece(Guid id, int pieceId, int numberOfFields)
+        // PUT: api/ludo/{gameID}/startgame
+        [HttpPut("{id}/startgame")]
+        public IActionResult StartGame(Guid id)
         {
-            return Ok(context.MovePiece(id, pieceId, numberOfFields));
-        }
-
-        // PUT: api/ludo/{gameID}/endturn
-        [HttpPut("{id}/endturn")]
-        public IActionResult EndTurn(Guid id)
-        {
-            context.EndTurn(id);
-            return Ok();
-        }
-
-        // GET: api/ludo/{gameID}/getwinner
-        [HttpGet("{id}/getwinner")]
-        public IActionResult GetWinner(Guid id)
-        {
-            return Ok(context.GetWinner(id));
+            return Ok(context.StartGame(id));
         }
     }
 }

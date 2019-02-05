@@ -4,10 +4,14 @@ namespace LudoGameEngine
 {
     public class Dice : IDice
     {
+        private static int lastDiceValue;
+        public static int LastDiceValue { get { return lastDiceValue; } }
+
         public int RollDice()
         {
             Random random = new Random();
-            return random.Next(1, 7);
+            lastDiceValue = random.Next(1, 7);
+            return lastDiceValue;
         }
     }
 }
