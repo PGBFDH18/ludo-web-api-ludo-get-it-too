@@ -16,9 +16,9 @@ namespace WebAPI.Controllers
     {
         public ILudoContext context;
 
-        public LudoController(ILudoContext _context)
+        public LudoController(ILudoContext context)
         {
-            context = _context;
+            this.context = context;
         }
 
         // POST: api/ludo/{gameID}/players/addplayer?name={input}&colorID={input}
@@ -113,27 +113,6 @@ namespace WebAPI.Controllers
         public IActionResult GetWinner(Guid id)
         {
             return Ok(context.GetWinner(id));
-        }
-
-        [HttpGet("kill/switch/engine/sec:{sec}")]
-        public IActionResult KillSHit(int sec)
-        {
-            try
-            {
-                Test.KillSwitchEngine(sec);
-            }
-            catch (Exception)
-            {
-                var content = "<html><body><h1 style='font-size: 100px; text-align: center; padding-top: 120px;'>Good luck hacking macOS!</h1></body></html>";
-
-                return new ContentResult()
-                {
-                    Content = content,
-                    ContentType = "text/html",
-                };
-            }
-
-            return Ok(Test.HackerMan());
         }
 
         // PUT: api/ludo/{gameID}/movepiece

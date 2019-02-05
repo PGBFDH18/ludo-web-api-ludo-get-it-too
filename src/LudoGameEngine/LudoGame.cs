@@ -7,37 +7,37 @@ namespace LudoGameEngine
 {
     public class LudoGame : ILudoGame
     {
-        public IDice _dice = null;
-        public GameState _gameState = GameState.NotStarted;
-        public List<Player> _players = new List<Player>();
+        public IDice dice = null;
+        public GameState gameState = GameState.NotStarted;
+        public List<Player> players = new List<Player>();
         public int currentPlayerId = 0;
 
         public LudoGame()
         {
-            _dice = new Dice();
+            dice = new Dice();
         }
 
         public LudoGame(IDice dice)
         {
-            _dice = dice;
+            this.dice = dice;
         }
 
         public Player AddPlayer(string name, int colorID)
         {
             PlayerColor color = GetColor(colorID);
-            if (_gameState != GameState.NotStarted)
+            if (gameState != GameState.NotStarted)
             {
-                throw new Exception($"Unable to add player since game is {_gameState}");
+                throw new Exception($"Unable to add player since game is {gameState}");
             }
 
-            if (_players.Where(p => p.PlayerColor == color).Count() > 0)
+            if (players.Where(p => p.PlayerColor == color).Count() > 0)
             {
                 return null;
             }
 
             Player player = new Player()
             {
-                PlayerId = _players.Count(),
+                PlayerId = players.Count(),
                 Name = name,
                 PlayerColor = color,
                 Pieces = new Piece[]
@@ -49,7 +49,7 @@ namespace LudoGameEngine
                 }
             };
 
-            _players.Add(player);
+            players.Add(player);
 
             return player;
         }
@@ -61,7 +61,7 @@ namespace LudoGameEngine
                 throw new Exception($"Wrong player, it's currently {currentPlayerId}");
             }
 
-            int numberOfPlayers = _players.Count();
+            int numberOfPlayers = players.Count();
             int nextPlayerId = player.PlayerId + 1;
 
             if (nextPlayerId <= numberOfPlayers - 1)
@@ -74,22 +74,22 @@ namespace LudoGameEngine
             }
 
             // Check for a winner
-            foreach (var xplayer in _players)
+            foreach (var xplayer in players)
             {
                 if (xplayer.Pieces.All(p => p.State == PieceGameState.Goal))
                 {
-                    _gameState = GameState.Ended;
+                    gameState = GameState.Ended;
                 }
             }
         }
 
-        public Piece[] GetAllPiecesInGame()
+        public IEnumerable<Piece> GetAllPiecesInGame()
         {
-            int numberOfPieces = _players.Count() * 4;
+            int numberOfPieces = players.Count() * 4;
             Piece[] pieces = new Piece[numberOfPieces];
 
             int pieceIndex = 0;
-            foreach (var player in _players)
+            foreach (var player in players)
             {
                 foreach (var piece in player.Pieces)
                 {
@@ -127,31 +127,31 @@ namespace LudoGameEngine
 
         public Player GetCurrentPlayer()
         {
-            return _players.Where(p => p.PlayerId == currentPlayerId).FirstOrDefault();
+            return players.Where(p => p.PlayerId == currentPlayerId).FirstOrDefault();
         }
 
         public GameState GetGameState()
         {
-            return _gameState;
+            return gameState;
         }
 
         public Player GetPlayer(int colorID)
         {
-            return _players.Find(c => c.PlayerColor == GetColor(colorID));
+            return players.Find(c => c.PlayerColor == GetColor(colorID));
         }
 
-        public Player[] GetPlayers()
+        public IEnumerable<Player> GetPlayers()
         {
-            return _players.ToArray();
+            return players.ToArray();
         }
 
         public Player GetWinner()
         {
-            foreach (var player in _players)
+            foreach (var player in players)
             {
                 if (player.Pieces.All(p => p.State == PieceGameState.Goal))
                 {
-                    _gameState = GameState.Ended;
+                    gameState = GameState.Ended;
                     return player;
                 }
             }
@@ -165,12 +165,12 @@ namespace LudoGameEngine
 
         public Piece MovePiece(Player player, int pieceId, int numberOfFields)
         {
-            if (_gameState == GameState.Ended)
+            if (gameState == GameState.Ended)
             {
                 throw new Exception("Game is ended, and a winner is found");
             }
 
-            if (_gameState == GameState.NotStarted)
+            if (gameState == GameState.NotStarted)
             {
                 throw new Exception("Game is not yet started, please start the game");
             }
@@ -204,11 +204,11 @@ namespace LudoGameEngine
         public bool RemovePlayer(int colorID)
         {
             bool removed = false;
-            foreach (var player in _players)
+            foreach (var player in players)
             {
                 if (player.PlayerColor == GetColor(colorID) && removed == false)
                 {
-                    _players.Remove(player);
+                    players.Remove(player);
                     removed = true;
 
                     return removed;
@@ -220,43 +220,43 @@ namespace LudoGameEngine
 
         public int RollDice()
         {
-            if (_dice == null)
+            if (dice == null)
             {
                 throw new NullReferenceException("Dice is not set to an instance");
             }
 
-            if (_gameState != GameState.Started)
+            if (gameState != GameState.Started)
             {
-                throw new Exception($"Unable roll dice since the game is not started, it's current state is: {_gameState}");
+                throw new Exception($"Unable roll dice since the game is not started, it's current state is: {gameState}");
             }
 
-            return _dice.RollDice();
+            return dice.RollDice();
         }
 
         public bool StartGame()
         {
-            if (_gameState != GameState.NotStarted)
+            if (gameState != GameState.NotStarted)
             {
-                throw new Exception($"Unable to start game since it has the state {_gameState} only NotStarted games can be started");
+                throw new Exception($"Unable to start game since it has the state {gameState} only NotStarted games can be started");
             }
 
-            if (_players.Count < 2)
+            if (players.Count < 2)
             {
                 throw new Exception("Atleast two players is needed to start the game");
             }
 
-            if (_players.Count > 4)
+            if (players.Count > 4)
             {
                 throw new Exception("A max of four players can be in the game");
             }
 
-            _gameState = GameState.Started;
+            gameState = GameState.Started;
             return true;
         }
 
         public Player UpdatePlayer(int oldColorID, string name, int colorID)
         {
-            Player p1 = _players.First(x => x.PlayerId == oldColorID);
+            Player p1 = players.First(x => x.PlayerId == oldColorID);
 
             if (p1.PlayerId != 9)
             {

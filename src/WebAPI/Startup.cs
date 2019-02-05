@@ -37,7 +37,6 @@ namespace WebAPI
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSingleton<ILudoContext, LudoContext>();
-            services.AddSingleton<new ILudoContext, Chess>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
