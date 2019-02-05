@@ -15,9 +15,9 @@ namespace WebAPI.Controllers
     public class LudoController : Controller
     {
         public ILudoContext context;
-        public LudoController(ILudoContext _context)
+        public LudoController(ILudoContext context)
         {
-            context = _context;
+            this.context = context;
         }
 
         // POST: api/ludo/createnewgame

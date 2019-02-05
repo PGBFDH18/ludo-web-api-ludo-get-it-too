@@ -1,10 +1,12 @@
+using System.Collections.Generic;
+
 namespace LudoGameEngine
 {
     public interface ILudoGame
     {
         bool StartGame();
         Player AddPlayer(string name, int colorID);
-        Player[] GetPlayers();
+        IEnumerable<Player> GetPlayers();
         GameState GetGameState();
         //void StartTurn(Player player);
 
@@ -15,7 +17,7 @@ namespace LudoGameEngine
         void EndTurn(Player player);
 
         Player GetCurrentPlayer();
-        Piece[] GetAllPiecesInGame();
+        IEnumerable<Piece> GetAllPiecesInGame();
 
         Player GetWinner();
     }

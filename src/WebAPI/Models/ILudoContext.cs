@@ -14,7 +14,7 @@ namespace WebAPI.Models
         bool RemovePlayer(Guid id, int colorID);
         Dictionary<Guid, LudoGame> GetAllGames();
         LudoGame GetGameDetail(Guid id);
-        Player[] GetAllPlayers(Guid id);
+        IEnumerable<Player> GetAllPlayers(Guid id);
         Player GetPlayerDetail(Guid id, int ColorID);
         Piece MovePiece(Guid id, int pieceId, int numberOfFields);
         bool StartGame(Guid id);

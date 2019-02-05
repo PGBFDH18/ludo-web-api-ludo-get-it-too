@@ -10,16 +10,16 @@ namespace LudoGameEngine
         public List<Player> _players = new List<Player>();
         public GameState _gameState = GameState.NotStarted;
         public int currentPlayerId = 0;
-        public IDice _dice = null;
+        public IDice dice = null;
 
         public LudoGame()
         {
-            _dice = new Dice();
+            dice = new Dice();
         }
 
         public LudoGame(IDice dice)
         {
-            _dice = dice;
+            this.dice = dice;
         }
 
         public Player AddPlayer(string name, int colorID)
@@ -83,7 +83,7 @@ namespace LudoGameEngine
             }
         }
 
-        public Piece[] GetAllPiecesInGame()
+        public IEnumerable<Piece> GetAllPiecesInGame()
         {
             int numberOfPieces = _players.Count() * 4;
             Piece[] pieces = new Piece[numberOfPieces];
@@ -111,7 +111,7 @@ namespace LudoGameEngine
             return _gameState;
         }
 
-        public Player[] GetPlayers()
+        public IEnumerable<Player> GetPlayers()
         {
             return _players.ToArray();
         }
@@ -156,7 +156,7 @@ namespace LudoGameEngine
 
         public int RollDice()
         {
-            if (_dice == null)
+            if (dice == null)
             {
                 throw new NullReferenceException("Dice is not set to an instance");
             }
@@ -166,7 +166,7 @@ namespace LudoGameEngine
                 throw new Exception($"Unable roll dice since the game is not started, it's current state is: {_gameState}");
             }
 
-            return _dice.RollDice();
+            return dice.RollDice();
         }
 
         public bool StartGame()
