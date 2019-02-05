@@ -66,11 +66,11 @@ namespace LudoGameEngine
 
 
             // currentPlayerId will only update as long as currentDiceRoll isn't 6.
-            if (nextPlayerId <= numberOfPlayers - 1 && currentDiceRoll != 6)
+            if (nextPlayerId <= numberOfPlayers - 1 && LastDiceValue() != 6)
             {
                 currentPlayerId = nextPlayerId;
             }
-            else if(currentDiceRoll != 6)
+            else if(LastDiceValue() != 6)
             {
                 currentPlayerId = nextPlayerId - numberOfPlayers;
             }
@@ -232,7 +232,7 @@ namespace LudoGameEngine
                 throw new Exception($"Unable roll dice since the game is not started, it's current state is: {gameState}");
             }
 
-            return currentDiceRoll;
+            return dice.RollDice();
         }
 
         public bool StartGame()
