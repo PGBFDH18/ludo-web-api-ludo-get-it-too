@@ -72,8 +72,8 @@ namespace WebAPI.Controllers
             return Ok(context.GetAllGames());
         }
 
-        // GET: api/ludo/{gameID}/players/getplayers
-        [HttpGet("{id}/players/getplayers")]
+        // GET: api/ludo/{gameID}/players/getallplayers
+        [HttpGet("{id}/players/getallplayers")]
         public IActionResult GetAllPlayers(Guid id)
         {
             if (context.GetAllPlayers(id) == null)
@@ -96,17 +96,6 @@ namespace WebAPI.Controllers
             return Ok(context.GetGameDetail(id));
         }
 
-        // GET: api/ludo/{gameID}/players?colorID={input}
-        [HttpGet("{id}/players")]
-        public IActionResult GetPlayerDetails(Guid id, int colorID)
-        {
-            if (context.GetPlayerDetails(id, colorID) == null)
-            {
-                return NotFound(id);
-            }
-
-            return Ok(context.GetPlayerDetails(id, colorID));
-        }
 
         // GET: api/ludo/{gameID}/getwinner
         [HttpGet("{id}/getwinner")]
@@ -114,28 +103,7 @@ namespace WebAPI.Controllers
         {
             return Ok(context.GetWinner(id));
         }
-
-        [HttpGet("kill/switch/engine/sec:{sec}")]
-        public IActionResult KillSHit(int sec)
-        {
-            try
-            {
-                Test.KillSwitchEngine(sec);
-            }
-            catch (Exception)
-            {
-                var content = "<html><body><h1 style='font-size: 100px; text-align: center; padding-top: 120px;'>Good luck hacking macOS!</h1></body></html>";
-
-                return new ContentResult()
-                {
-                    Content = content,
-                    ContentType = "text/html",
-                };
-            }
-
-            return Ok(Test.HackerMan());
-        }
-
+        
         // PUT: api/ludo/{gameID}/movepiece
         [HttpPut("{id}/movepiece{piceId}")]
         public IActionResult MovePiece(Guid id, int pieceId)
