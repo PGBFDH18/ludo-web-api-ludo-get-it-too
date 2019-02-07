@@ -104,7 +104,7 @@ paths:
         default:
           description: There are no players in this game
 
-    put:
+    post:
       summary: add new player, only applicable if game state is NotStarted
       operationId: AddPlayer
       responses:
@@ -126,22 +126,6 @@ paths:
         description: playingcolor of the new player.
         required: true
 
-  /ludo/{gameID}/players/{PlayerID}:
-    get:
-      summary: Get details about player from a specific game.
-      operationId: GetPlayerDetails
-      parameters:
-      - name: GameID
-        in: path
-        required: true
-      - name: ColorID
-        in: path
-        required: true
-      responses:
-        '200':
-          description: Success, here's you player
-        default:
-          description: Something went wrong, check your input.
     put:
       summary: Change name or color on player. color change only possible in game state NotStarted.
       operationId: ChangePlayerDetails
