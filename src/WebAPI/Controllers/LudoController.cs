@@ -72,8 +72,8 @@ namespace WebAPI.Controllers
             return Ok(context.GetAllGames());
         }
 
-        // GET: api/ludo/{gameID}/players/getplayers
-        [HttpGet("{id}/players/getplayers")]
+        // GET: api/ludo/{gameID}/players/getallplayers
+        [HttpGet("{id}/players/getallplayers")]
         public IActionResult GetAllPlayers(Guid id)
         {
             if (context.GetAllPlayers(id) == null)
@@ -94,18 +94,6 @@ namespace WebAPI.Controllers
             }
 
             return Ok(context.GetGameDetail(id));
-        }
-
-        // GET: api/ludo/{gameID}/players?colorID={input}
-        [HttpGet("{id}/players")]
-        public IActionResult GetPlayerDetails(Guid id, int colorID)
-        {
-            if (context.GetPlayerDetails(id, colorID) == null)
-            {
-                return NotFound(id);
-            }
-
-            return Ok(context.GetPlayerDetails(id, colorID));
         }
 
         // GET: api/ludo/{gameID}/getwinner
