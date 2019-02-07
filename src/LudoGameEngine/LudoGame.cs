@@ -165,7 +165,7 @@ namespace LudoGameEngine
             return Dice.LastDiceValue;
         }
 
-        public Piece MovePiece(Player player, int pieceId, int numberOfFields)
+        public Piece MovePiece(int pieceId, int numberOfFields)
         {
             if (gameState == GameState.Ended)
             {
@@ -177,7 +177,7 @@ namespace LudoGameEngine
                 throw new Exception("Game is not yet started, please start the game");
             }
 
-            var piece = player.Pieces.First(p => p.PieceId == pieceId);
+            var piece = players[currentPlayerId].Pieces[pieceId];
 
             if (piece.State == PieceGameState.Goal)
             {

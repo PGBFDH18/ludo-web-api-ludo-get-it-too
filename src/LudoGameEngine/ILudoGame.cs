@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 
+
 namespace LudoGameEngine
 {
     public interface ILudoGame
@@ -13,7 +14,7 @@ namespace LudoGameEngine
         int RollDice();
 
         bool RemovePlayer(int colorID);
-        Piece MovePiece(Player player, int pieceId, int numberOfFields);
+        Piece MovePiece(int pieceId, int numberOfFields);
         void EndTurn(Player player);
 
         Player GetCurrentPlayer();

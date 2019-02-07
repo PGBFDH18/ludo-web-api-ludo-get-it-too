@@ -75,7 +75,7 @@ namespace WebAPI.Models
 
         public Piece MovePiece(Guid id, int pieceId, int numberOfFields)
         {
-            return ludoGames[id].MovePiece(ludoGames[id].GetCurrentPlayer(), pieceId, numberOfFields);
+            return ludoGames[id].MovePiece(pieceId, numberOfFields);
         }
 
         public bool RemoveGame(Guid id)
