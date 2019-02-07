@@ -16,9 +16,9 @@ namespace WebAPI.Controllers
     {
         public ILudoContext context;
 
-        public LudoController(ILudoContext _context)
+        public LudoController(ILudoContext context)
         {
-            context = _context;
+            this.context = context;
         }
 
         // POST: api/ludo/{gameID}/players/addplayer?name={input}&colorID={input}
@@ -72,8 +72,8 @@ namespace WebAPI.Controllers
             return Ok(context.GetAllGames());
         }
 
-        // GET: api/ludo/{gameID}/players/getallplayers
-        [HttpGet("{id}/players/getallplayers")]
+        // GET: api/ludo/{gameID}/players/getplayers
+        [HttpGet("{id}/players/getplayers")]
         public IActionResult GetAllPlayers(Guid id)
         {
             if (context.GetAllPlayers(id) == null)
@@ -96,6 +96,17 @@ namespace WebAPI.Controllers
             return Ok(context.GetGameDetail(id));
         }
 
+        // GET: api/ludo/{gameID}/players?colorID={input}
+        [HttpGet("{id}/players")]
+        public IActionResult GetPlayerDetails(Guid id, int colorID)
+        {
+            if (context.GetPlayerDetails(id, colorID) == null)
+            {
+                return NotFound(id);
+            }
+
+            return Ok(context.GetPlayerDetails(id, colorID));
+        }
 
         // GET: api/ludo/{gameID}/getwinner
         [HttpGet("{id}/getwinner")]
@@ -103,12 +114,12 @@ namespace WebAPI.Controllers
         {
             return Ok(context.GetWinner(id));
         }
-        
+
         // PUT: api/ludo/{gameID}/movepiece
-        [HttpPut("{id}/movepiece{piceId}")]
-        public IActionResult MovePiece(Guid id, int pieceId)
+        [HttpPut("{id}/movepiece")]
+        public IActionResult MovePiece(Guid id, int pieceId, int numberOfFields)
         {
-            return Ok(context.MovePiece(id, pieceId, context.LastDiceValue(id)));
+            return Ok(context.MovePiece(id, pieceId, numberOfFields));
         }
 
         // DELETE: api/ludo/{gameID}/removegame

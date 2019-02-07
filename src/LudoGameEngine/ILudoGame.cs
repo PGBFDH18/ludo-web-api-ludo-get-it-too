@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace LudoGameEngine
 {
     public interface ILudoGame

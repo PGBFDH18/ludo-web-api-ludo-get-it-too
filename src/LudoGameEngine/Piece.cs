@@ -5,6 +5,6 @@ namespace LudoGameEngine
         public int PieceId { get; set; }
         public PieceGameState State { get; set; }
         public int Position { get; set; }
-        public PlayerColor PieceColor {get; set;} 
+        public PlayerColor PieceColor {get; set;}
     }
 }
