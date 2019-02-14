@@ -1,0 +1,392 @@
+{
+	"info": {
+		"_postman_id": "f116cb24-e845-4910-b49e-7c872414ada9",
+		"name": "a simple testrun",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Game",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/api/ludo/createnewgame",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"ludo",
+						"createnewgame"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add player 1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/api/ludo/{{gameID}}/players/addplayer?name=Fatlum&colorID=0",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"ludo",
+						"{{gameID}}",
+						"players",
+						"addplayer"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Fatlum"
+						},
+						{
+							"key": "colorID",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add player 2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/api/ludo/{{gameID}}/players/addplayer?name=Mathias&colorID=1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"ludo",
+						"{{gameID}}",
+						"players",
+						"addplayer"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Mathias"
+						},
+						{
+							"key": "colorID",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add player 3",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/api/ludo/{{gameID}}/players/addplayer?name=Ester&colorID=3",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"ludo",
+						"{{gameID}}",
+						"players",
+						"addplayer"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Ester"
+						},
+						{
+							"key": "colorID",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Start game",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/api/ludo/{{gameID}}/startgame",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"ludo",
+						"{{gameID}}",
+						"startgame"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Player 1 move piece",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\" : 2,\n\t\"name\": \"test\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/api/ludo/{{gameID}}/movepiece?pieceId=0&numberOfFields=5",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"ludo",
+						"{{gameID}}",
+						"movepiece"
+					],
+					"query": [
+						{
+							"key": "pieceId",
+							"value": "0"
+						},
+						{
+							"key": "numberOfFields",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "End turn",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/api/ludo/{{gameID}}/endturn",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"ludo",
+						"{{gameID}}",
+						"endturn"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Player 2 move piece",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/api/ludo/{{gameID}}/movepiece?pieceId=0&numberOfFields=3",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"ludo",
+						"{{gameID}}",
+						"movepiece"
+					],
+					"query": [
+						{
+							"key": "pieceId",
+							"value": "0"
+						},
+						{
+							"key": "numberOfFields",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "End turn Copy",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/api/ludo/{{gameID}}/endturn",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"ludo",
+						"{{gameID}}",
+						"endturn"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Player 3 move piece",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/api/ludo/{{gameID}}/movepiece?pieceId=0&numberOfFields=6",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"ludo",
+						"{{gameID}}",
+						"movepiece"
+					],
+					"query": [
+						{
+							"key": "pieceId",
+							"value": "0"
+						},
+						{
+							"key": "numberOfFields",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "End turn Copy Copy",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/api/ludo/{{gameID}}/endturn",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"ludo",
+						"{{gameID}}",
+						"endturn"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Details about game",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/api/ludo/INPUTGAMEIDHERE/getgamedetails",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"ludo",
+						"INPUTGAMEIDHERE",
+						"getgamedetails"
+					]
+				},
+				"description": "  /ludo/{gameID}:\r\n    get:\r\n      summary: details about the game, positioning of the pieces, colors in play.\r\n      operationId: GetGameDetails\r\n      parameters:\r\n        - name: gameID\r\n          in: path\r\n          description: The id of the pet to retrieve\r\n          required: true\r\n          schema:\r\n            type: string"
+			},
+			"response": []
+		},
+		{
+			"name": "Remove game",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/api/ludo/1/removegame",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"ludo",
+						"1",
+						"removegame"
+					]
+				},
+				"description": "    delete:\r\n      summary: remove this game\r\n      operationId: RemoveGame\r\n      parameters:\r\n        - name: gameID\r\n          in: path\r\n          description: The id of the pet to retrieve\r\n          required: true\r\n          schema:\r\n            type: string"
+			},
+			"response": []
+		}
+	]
+}
