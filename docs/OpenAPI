@@ -1,4 +1,4 @@
-swagger: '2.0' 
+openapi: 3.0.0
 info:
   version: 1.0.1
   title: LUDO
@@ -6,50 +6,119 @@ info:
 servers:
   - url: https://facebook.com/
 paths:
-  /ludo:
+  /ludo/getallgames:
     get:
       summary: list of LUDU-games avaliable
       operationId: GetAllGames
       responses:
         '200':
           description: Success
-        default:
-          description: There are no active games at this moment.
-        
+          
+  /ludo/createnewgame:
     post:
       summary: Create a new game
       operationId: CreateNewGame
       responses:
         '200':
-          description: Success, you've created a new game
-        default:
-          description: We could not create a new game at this time.
+          description: Success
           
-  /ludo/{gameID}:
+  /ludo/{id}/getgamedetails:
     get:
       summary: details about the game, positioning of the pieces, colors in play.
       operationId: GetGameDetails
       parameters:
-        - name: gameID
+        - name: id
           in: path
           description: The id of the game.
           required: true
       responses:
         '200':
-          description: Success, this is how your game looks.
-        default:
-          description: Something went wrong, invalid gameID perhaps.
-
+          description: Success
+          
+  /ludo/{id}/changeplayerdetails:
+    put:
+      summary: Change name or color on player. color change only possible in game state NotStarted.
+      operationId: ChangePlayerDetails
+      responses:
+        '200':
+          description: Success
+      parameters:
+      - name: id
+        in: path
+        required: true
+      - name: oldColorID
+        in: path
+        required: true
+      - name: Name
+        in: query
+        required: true
+        description: updates player name.
+      - name: ColorID
+        in: query
+        required: true
+        description: updates player color.   
+      
+  /ludo/{id}/endturn:
+    put:
+      summary: Ends a players turn.
+      operationId: endturn
+      response:
+        '200':
+          description: Ended players turn.
+          
+  /ludo/{id}/getwinner:
+    get:
+      summary: Gets the winner.
+      operationId: getwinner
+      response:
+        '200':
+          description: Successful request
+          
+  /ludo/{id}/removegame:
+    delete:
+      summary: Remove this game.
+      operationId: RemoveGame
+      parameters:
+        - name: id
+          in: path
+          description: The id of the game to delete.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success, you've deleted the game
+          
+  /ludo/{id}/rolldice:
+    get:
+      summary: Rolls the dice
+      operationId: rolldice
+      response:
+        '200':
+          description: Dice has been rolled.
+          
+  /ludo/{id}/startgame:
+    put:
+      summary: Starts the game.
+      operationId: startgame
+      parameters:
+        - name: id
+          description: gameID
+          in: path
+          required: true
+      response:
+        '200':
+          description: Game started.
+        
+  /ludo/{id}/movepiece:
     put:
       summary: change positioning of a piece
       operationId: MovePiece
       responses:
         '200':
-          description: Success, you moved a piece.
-        default:
-          description: Could not move piece, check input.
+          description: Success
       parameters:
-      - name: gameID
+      - name: id
         in: path
         description: The id of the game to update.
         required: true
@@ -67,32 +136,41 @@ paths:
         required: true
         scema:
           type: int
-
-    delete:
-      summary: Remove this game.
-      operationId: RemoveGame
+          
+  /ludo/{id}/players:
+    get:
+      summary: get details about player
+      operationId: GetPlayerDetails
       parameters:
-        - name: gameID
-          in: path
-          description: The id of the game to delete.
-          required: true
-          schema:
-            type: string
+      - name: id
+        in: path
+        required: true
+      - name: colorID
+        in: query
+        required: true
       responses:
         '200':
-          description: Success, you've deleted the game
-        default:
-          description: Something went wrong.
-          schema:
-            type: string
-            example: Could not find "{0}", gameID.
-
-  /ludo/{gameID}/players:
+          description: Success
+    delete:
+      summary: remove player.
+      operationId: RemovePlayer
+      parameters:
+      - name: id
+        in: path
+        required: true
+      - name: colorID
+        in: path
+        required: true
+      responses:  
+        '200':
+          description: Success
+          
+  /ludo/{id}/players/getallplayers:
     get:
       summary : list players in this game
       operationId: GetAllPlayers
       parameters:
-      - name: gameID
+      - name: id
         in: path
         description: The id of the game to retrieve all players from.
         required: true
@@ -101,19 +179,16 @@ paths:
       responses:
         '200':
           description: Success, here's your list of players.
-        default:
-          description: There are no players in this game
-
+          
+  /ludo/{id}/players/addplayer:
     post:
       summary: add new player, only applicable if game state is NotStarted
       operationId: AddPlayer
       responses:
         '200':
-          description: Success, you added a player
-        default:
-          description: Only applicable if the game is not started
+          description: Success
       parameters:
-      - name: gameID
+      - name: id
         in: path
         description: Add player to a game with this ID.
         required: true
@@ -125,75 +200,3 @@ paths:
         in: query
         description: playingcolor of the new player.
         required: true
-
-    put:
-      summary: Change name or color on player. color change only possible in game state NotStarted.
-      operationId: ChangePlayerDetails
-      responses:
-        '200':
-          description: Success, player updated
-        default:
-          description: Invalid input perhaps
-      parameters:
-      - name: gameID
-        in: path
-        required: true
-      - name: oldColorID
-        in: path
-        required: true
-      - name: Name
-        in: query
-        description: updates player name.
-      - name: ColorID
-        in: query
-        description: updates player color.
-    delete:
-      summary: remove player.
-      operationId: RemovePlayer
-      parameters:
-      - name: gameID
-        in: path
-        required: true
-      - name: ColorID
-        in: path
-        required: true
-      responses:  
-        default:
-          description: Something went wrong
-        '200':
-          description: Success, player removed.
-  /ludo/{gameID}/startgame:
-  put:
-    summary: Starts the game.
-    operationId: startgame
-    parameters:
-      - name: gameID
-        in: path
-        required: true
-    response:
-      '200':
-        description: Game started.
-      '405':
-        description: Could not start this game.
-  /ludo/{gameID}/endturn:
-    put:
-      summary: Ends a players turn.
-      operationId: endturn
-      response:
-        '200':
-          description: Ended players turn.
-  
-  /ludo/{gameID}/rolldice:
-    get:
-      summary: Rolls the dice
-      operationId: rolldice
-      response:
-        '200':
-          description: Dice has been rolled.
-  /ludo/{gameID}/getwinner:
-    get:
-      summary: Gets the winner.
-      operationId: getwinner
-      response:
-        '200':
-          description: Successful request
