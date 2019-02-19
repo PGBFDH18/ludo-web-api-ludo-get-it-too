@@ -3,8 +3,6 @@ info:
   version: 1.0.1
   title: LUDO
   description: Välkommen till Fia med Knuff
-servers:
-  - url: https://facebook.com/
 paths:
   /ludo/getallgames:
     get:
