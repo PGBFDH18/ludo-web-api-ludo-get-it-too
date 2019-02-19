@@ -5,8 +5,6 @@ Put your documentation in this folder!
 
 Vi har satt upp en Continious Integration pipeline i AzureDevOps.
 
+![picture1](CI1.png)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⊹╰(⌣ʟ⌣)╯⊹<br/>
-( ͡°( ͡° ͜ʖ( ͡° ͜ʖ ͡°)ʖ ͡°) ͡°)<br/>
-This readme is under construction.<br/>
-Come back later.<br/>
+![picture2](CI2.png)
