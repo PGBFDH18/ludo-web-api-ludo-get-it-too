@@ -186,6 +186,12 @@ namespace LudoGameEngine
 
             var currentPosition = piece.Position;
 
+            if(players[currentPlayerId].Pieces[pieceId].State == 0)
+            {
+                currentPosition = players[currentPlayerId].Offset;
+            }
+
+
             var newPosition = currentPosition += numberOfFields;
             piece.State = PieceGameState.InGame;
             piece.Position = newPosition;
